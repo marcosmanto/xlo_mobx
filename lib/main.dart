@@ -13,7 +13,11 @@ void main() async {
     debug: true,
   );
 
-  final category = ParseObject('Categories')
+  ParseObject('Categories')
+    ..objectId = 'rHkfq10o0I'
+    ..delete();
+
+  /*final category = ParseObject('Categories')
     ..objectId = 'rHkfq10o0I'
     ..set<int>('Position', 3);
 
@@ -21,7 +25,7 @@ void main() async {
 
   print(response.success);
 
-  /*final category = ParseObject('Categories')
+  final category = ParseObject('Categories')
     ..set('Title', 'Meias')
     ..set('Position', 1);
   final response = await category.save();
