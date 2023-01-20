@@ -13,14 +13,21 @@ void main() async {
     debug: true,
   );
 
-  final response = await ParseObject('Categories').getAll();
+  final query = QueryBuilder(ParseObject('Categories'));
+  query.whereEqualTo('Position', 2);
+  final response = await query.query();
+  if (response.success) {
+    print(response.result);
+  }
+
+  /*final response = await ParseObject('Categories').getAll();
   if (response.success) {
     for (final object in response.result) {
       print(object);
     }
   }
 
-  /*final response = await ParseObject('Categories').getObject('BqEBpyr7XC');
+  final response = await ParseObject('Categories').getObject('BqEBpyr7XC');
   if (response.success) {
     print(response.result);
   }
