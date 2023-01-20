@@ -13,11 +13,16 @@ void main() async {
     debug: true,
   );
 
-  ParseObject('Categories')
+  final response = await ParseObject('Categories').getObject('BqEBpyr7XC');
+  if (response.success) {
+    print(response.result);
+  }
+
+  /*ParseObject('Categories')
     ..objectId = 'rHkfq10o0I'
     ..delete();
 
-  /*final category = ParseObject('Categories')
+  final category = ParseObject('Categories')
     ..objectId = 'rHkfq10o0I'
     ..set<int>('Position', 3);
 
