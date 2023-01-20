@@ -14,7 +14,8 @@ void main() async {
   );
 
   final query = QueryBuilder(ParseObject('Categories'));
-  query.whereEqualTo('Position', 2);
+  query.whereContains('Title', 'Meias');
+  query.whereEqualTo('Position', 3);
   final response = await query.query();
   if (response.success) {
     print(response.result);
