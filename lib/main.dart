@@ -14,11 +14,19 @@ void main() async {
   );
 
   final category = ParseObject('Categories')
-    ..set('Title', 'Camisetas')
-    ..set('Position', 2);
+    ..objectId = 'rHkfq10o0I'
+    ..set<int>('Position', 3);
+
   final response = await category.save();
 
   print(response.success);
+
+  /*final category = ParseObject('Categories')
+    ..set('Title', 'Meias')
+    ..set('Position', 1);
+  final response = await category.save();
+
+  print(response.success);*/
 }
 
 class MyApp extends StatelessWidget {
