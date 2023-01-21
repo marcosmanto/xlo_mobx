@@ -28,25 +28,27 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        controller: pageController,
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          HomeScreen(),
-          Container(
-            color: Colors.green,
-          ),
-          Container(
-            color: Colors.yellow,
-          ),
-          Container(
-            color: Colors.purple,
-          ),
-          Container(
-            color: Colors.brown,
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: PageView(
+          controller: pageController,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            HomeScreen(),
+            Container(
+              color: Colors.green,
+            ),
+            Container(
+              color: Colors.yellow,
+            ),
+            Container(
+              color: Colors.purple,
+            ),
+            Container(
+              color: Colors.brown,
+            ),
+          ],
+        ),
       ),
     );
   }

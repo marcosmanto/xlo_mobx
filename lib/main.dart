@@ -31,10 +31,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = ThemeData();
     return MaterialApp(
       title: 'XLO',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      theme: themeData.copyWith(
+        scaffoldBackgroundColor: Colors.purple,
+        appBarTheme: AppBarTheme(elevation: 0),
+        colorScheme: themeData.colorScheme.copyWith(
+          primary: Colors.purple,
+          secondary: Colors.cyanAccent[200],
+        ),
       ),
       home: BaseScreen(),
     );
