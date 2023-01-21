@@ -86,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 8, vertical: 9),
                     ),
-                    keyboardType: TextInputType.emailAddress,
+                    obscureText: true,
                   ),
                   const SizedBox(height: 30),
                   Container(
