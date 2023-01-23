@@ -2,13 +2,18 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:xlo_mobx/screens/signup/components/field_title.dart';
 import 'package:xlo_mobx/stores/signup_store.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
 
-  final SignupStore signupStore = SignupStore();
+  // local service instance
+  //final SignupStore signupStore = SignupStore();
+
+  // global service instance
+  final signupStore = GetIt.I<SignupStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,7 @@ class SignUpScreen extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 32),
             elevation: 4,
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.fromLTRB(16, 22, 16, 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -35,7 +40,8 @@ class SignUpScreen extends StatelessWidget {
                     subtitle: 'Como aparecerá em seus anúncios',
                   ),
                   Observer(builder: (_) {
-                    return TextField(
+                    return TextFormField(
+                      initialValue: signupStore.name,
                       decoration: InputDecoration(
                         hintText: 'Exemplo: João P.',
                         border: OutlineInputBorder(),
@@ -55,7 +61,8 @@ class SignUpScreen extends StatelessWidget {
                     subtitle: 'Enviaremos um e-mail de confirmação',
                   ),
                   Observer(builder: (_) {
-                    return TextField(
+                    return TextFormField(
+                      initialValue: signupStore.email,
                       decoration: InputDecoration(
                         hintText: 'Exemplo: joao@gmail.com',
                         border: OutlineInputBorder(),
@@ -77,7 +84,8 @@ class SignUpScreen extends StatelessWidget {
                     subtitle: 'Proteja sua conta',
                   ),
                   Observer(builder: (_) {
-                    return TextField(
+                    return TextFormField(
+                      initialValue: signupStore.phone,
                       decoration: InputDecoration(
                           hintText: 'Exemplo: (99) 99999-9999',
                           border: OutlineInputBorder(),
@@ -102,7 +110,8 @@ class SignUpScreen extends StatelessWidget {
                     subtitle: 'Use letras, números e caracteres especiais',
                   ),
                   Observer(builder: (_) {
-                    return TextField(
+                    return TextFormField(
+                      initialValue: signupStore.pass1,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           isDense: true,
@@ -121,7 +130,8 @@ class SignUpScreen extends StatelessWidget {
                     subtitle: 'Repita a senha',
                   ),
                   Observer(builder: (_) {
-                    return TextField(
+                    return TextFormField(
+                      initialValue: signupStore.pass2,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         isDense: true,
@@ -136,50 +146,55 @@ class SignUpScreen extends StatelessWidget {
                     );
                   }),
                   const SizedBox(height: 16),
-                  Container(
-                    height: 40,
-                    margin: EdgeInsets.symmetric(vertical: 12),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                  Observer(builder: (_) {
+                    return Container(
+                      height: 40,
+                      margin: EdgeInsets.only(top: 12, bottom: 4),
+                      child: ElevatedButton(
+                        onPressed: signupStore.signUpPressed,
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
+                        child: Text('CADASTRAR'),
                       ),
-                      child: Text('CADASTRAR'),
-                    ),
-                  ),
+                    );
+                  }),
                   Divider(
                     color: Colors.grey,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Wrap(
-                      alignment: WrapAlignment.center,
-                      children: [
-                        Text(
-                          'Já tem uma conta? ',
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text(
+                        'Já tem uma conta? ',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                        ),
+                        onPressed: Navigator.of(context).pop,
+                        child: Text(
+                          'Entrar',
                           style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Theme.of(context).colorScheme.primary,
                             fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: Navigator.of(context).pop,
-                          child: Text(
-                            'Entrar',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Theme.of(context).colorScheme.primary,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   )
                 ],
               ),

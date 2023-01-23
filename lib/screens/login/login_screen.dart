@@ -21,7 +21,7 @@ class LoginScreen extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 32),
             elevation: 4,
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.fromLTRB(16, 22, 16, 5),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -91,7 +91,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 30),
                   Container(
                     height: 40,
-                    margin: EdgeInsets.symmetric(vertical: 12),
+                    margin: EdgeInsets.only(top: 12, bottom: 4),
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
@@ -108,34 +108,36 @@ class LoginScreen extends StatelessWidget {
                   Divider(
                     color: Colors.grey,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Wrap(
-                      alignment: WrapAlignment.center,
-                      children: [
-                        Text(
-                          'Não tem uma conta? ',
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text(
+                        'Não tem uma conta? ',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => SignUpScreen()));
+                        },
+                        child: Text(
+                          'Cadastre-se',
                           style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Theme.of(context).colorScheme.primary,
                             fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => SignUpScreen()));
-                          },
-                          child: Text(
-                            'Cadastre-se',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Theme.of(context).colorScheme.primary,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   )
                 ],
               ),

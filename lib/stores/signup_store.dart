@@ -7,7 +7,9 @@ class SignupStore = _SignupStoreBase with _$SignupStore;
 abstract class _SignupStoreBase with Store {
   _SignupStoreBase() {
     autorun((_) {
+      // ignore: avoid_print
       print('pass1: $pass1');
+      // ignore: avoid_print
       print('pass2: $pass2');
     });
   }
@@ -95,5 +97,24 @@ abstract class _SignupStoreBase with Store {
     } else {
       return 'Senhas não coincidem';
     }
+  }
+
+  @computed
+  bool get isFormValid =>
+      nameValid && emailValid && phoneValid && pass1Valid && pass2Valid;
+
+  @computed
+  void Function()? get signUpPressed => isFormValid ? _signUp : null;
+
+  @observable
+  bool? loading;
+
+  @action
+  Future<void> _signUp() async {
+    loading = true;
+
+    await Future.delayed(Duration(seconds: 3));
+
+    loading = false;
   }
 }
