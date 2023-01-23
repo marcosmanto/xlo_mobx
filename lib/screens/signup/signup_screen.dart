@@ -54,65 +54,87 @@ class SignUpScreen extends StatelessWidget {
                     title: 'E-mail',
                     subtitle: 'Enviaremos um e-mail de confirmação',
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Exemplo: joao@gmail.com',
-                      border: OutlineInputBorder(),
-                      isDense: true,
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 8, vertical: 9),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    autocorrect: false,
-                  ),
+                  Observer(builder: (_) {
+                    return TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Exemplo: joao@gmail.com',
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 9,
+                        ),
+                        errorText: signupStore.emailError,
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      autocorrect: false,
+                      onChanged: signupStore.setEmail,
+                    );
+                  }),
                   const SizedBox(height: 16),
                   FieldTitle(
                     title: 'Celular',
                     subtitle: 'Proteja sua conta',
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Exemplo: (99) 99999-9999',
-                      border: OutlineInputBorder(),
-                      isDense: true,
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 8, vertical: 9),
-                    ),
-                    keyboardType: TextInputType.phone,
-                    autocorrect: false,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      TelefoneInputFormatter()
-                    ],
-                  ),
+                  Observer(builder: (_) {
+                    return TextField(
+                      decoration: InputDecoration(
+                          hintText: 'Exemplo: (99) 99999-9999',
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 9,
+                          ),
+                          errorText: signupStore.phoneError),
+                      keyboardType: TextInputType.phone,
+                      autocorrect: false,
+                      onChanged: signupStore.setPhone,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        TelefoneInputFormatter()
+                      ],
+                    );
+                  }),
                   const SizedBox(height: 16),
                   FieldTitle(
                     title: 'Senha',
                     subtitle: 'Use letras, números e caracteres especiais',
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      isDense: true,
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 8, vertical: 9),
-                    ),
-                    obscureText: true,
-                  ),
+                  Observer(builder: (_) {
+                    return TextField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 9,
+                          ),
+                          errorText: signupStore.pass1Error),
+                      obscureText: true,
+                      onChanged: signupStore.setPass1,
+                    );
+                  }),
                   const SizedBox(height: 16),
                   FieldTitle(
                     title: 'Confirmar senha',
                     subtitle: 'Repita a senha',
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      isDense: true,
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 8, vertical: 9),
-                    ),
-                    obscureText: true,
-                  ),
+                  Observer(builder: (_) {
+                    return TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 9,
+                        ),
+                        errorText: signupStore.pass2Error,
+                      ),
+                      obscureText: true,
+                      onChanged: signupStore.setPass2,
+                    );
+                  }),
                   const SizedBox(height: 16),
                   Container(
                     height: 40,
