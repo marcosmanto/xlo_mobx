@@ -5,6 +5,13 @@ part 'signup_store.g.dart';
 class SignupStore = _SignupStoreBase with _$SignupStore;
 
 abstract class _SignupStoreBase with Store {
+  _SignupStoreBase() {
+    autorun((_) {
+      print('pass1: $pass1');
+      print('pass2: $pass2');
+    });
+  }
+
   @observable
   String? name;
 
