@@ -3,18 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 import 'package:xlo_mobx/main.dart';
 import 'package:xlo_mobx/screens/signup/components/field_title.dart';
 import 'package:xlo_mobx/stores/signup_store.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   SignUpScreen({super.key});
 
-  // local service instance
-  //final SignupStore signupStore = SignupStore();
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
 
-  // global service instance
+class _SignUpScreenState extends State<SignUpScreen> {
+  // local service instance
   final signupStore = GetIt.I<SignupStore>();
+
+  @override
+  void initState() {
+    super.initState();
+    reaction((_) => signupStore.loading, (loading) {
+      if (loading == false) {
+        //Hide immediately snackbar if there is one
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
