@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import '../../components/error_box.dart';
 import '../../main.dart';
 import 'components/field_title.dart';
 import '../../stores/signup_store.dart';
@@ -62,6 +63,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      if (gDebug && signupStore.error != null)
+                        ElevatedButton(
+                          onPressed: signupStore.clearError,
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            elevation: 0,
+                          ),
+                          child: Text('Limpar erro'),
+                        ),
+                      Observer(
+                        builder: (_) {
+                          return ErrorBox(message: signupStore.error);
+                        },
+                      ),
                       FieldTitle(
                         title: 'Apelido',
                         subtitle: 'Como aparecerá em seus anúncios',
@@ -191,7 +208,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       width: 25,
                                       height: 25,
                                       child: CircularProgressIndicator(
-                                        strokeWidth: circularProgressStrokeWidh,
+                                        strokeWidth:
+                                            gCircularProgressStrokeWidh,
                                       ),
                                     ),
                                   )

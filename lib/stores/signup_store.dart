@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+
 import '../helpers/extensions.dart';
 import '../models/user.dart';
 import '../repositories/user_repository.dart';
+
 part 'signup_store.g.dart';
 
 class SignupStore = _SignupStoreBase with _$SignupStore;
@@ -21,6 +23,9 @@ abstract class _SignupStoreBase with Store {
 
   @observable
   String? email;
+
+  @observable
+  String? error;
 
   @observable
   bool loading = false;
@@ -131,6 +136,9 @@ abstract class _SignupStoreBase with Store {
   Color? get textColor => loading ? Colors.grey : null;
 
   @action
+  clearError() => error = null;
+
+  @action
   Future<void> _signUp() async {
     loading = true;
 
@@ -141,7 +149,13 @@ abstract class _SignupStoreBase with Store {
       password: pass1!,
     );
 
-    await UserRepository().signUp(user);
+    try {
+      final resultUser = await UserRepository().signUp(user);
+      print(resultUser);
+      error = null;
+    } catch (e) {
+      error = e.toString();
+    }
 
     loading = false;
   }

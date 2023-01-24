@@ -66,21 +66,6 @@ mixin _$SignupStore on _SignupStoreBase, Store {
               name: '_SignupStoreBase.textColor'))
           .value;
 
-  late final _$nameAtom = Atom(name: '_SignupStoreBase.name', context: context);
-
-  @override
-  String? get name {
-    _$nameAtom.reportRead();
-    return super.name;
-  }
-
-  @override
-  set name(String? value) {
-    _$nameAtom.reportWrite(value, super.name, () {
-      super.name = value;
-    });
-  }
-
   late final _$emailAtom =
       Atom(name: '_SignupStoreBase.email', context: context);
 
@@ -97,19 +82,50 @@ mixin _$SignupStore on _SignupStoreBase, Store {
     });
   }
 
-  late final _$phoneAtom =
-      Atom(name: '_SignupStoreBase.phone', context: context);
+  late final _$errorAtom =
+      Atom(name: '_SignupStoreBase.error', context: context);
 
   @override
-  String? get phone {
-    _$phoneAtom.reportRead();
-    return super.phone;
+  String? get error {
+    _$errorAtom.reportRead();
+    return super.error;
   }
 
   @override
-  set phone(String? value) {
-    _$phoneAtom.reportWrite(value, super.phone, () {
-      super.phone = value;
+  set error(String? value) {
+    _$errorAtom.reportWrite(value, super.error, () {
+      super.error = value;
+    });
+  }
+
+  late final _$loadingAtom =
+      Atom(name: '_SignupStoreBase.loading', context: context);
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  late final _$nameAtom = Atom(name: '_SignupStoreBase.name', context: context);
+
+  @override
+  String? get name {
+    _$nameAtom.reportRead();
+    return super.name;
+  }
+
+  @override
+  set name(String? value) {
+    _$nameAtom.reportWrite(value, super.name, () {
+      super.name = value;
     });
   }
 
@@ -145,19 +161,19 @@ mixin _$SignupStore on _SignupStoreBase, Store {
     });
   }
 
-  late final _$loadingAtom =
-      Atom(name: '_SignupStoreBase.loading', context: context);
+  late final _$phoneAtom =
+      Atom(name: '_SignupStoreBase.phone', context: context);
 
   @override
-  bool get loading {
-    _$loadingAtom.reportRead();
-    return super.loading;
+  String? get phone {
+    _$phoneAtom.reportRead();
+    return super.phone;
   }
 
   @override
-  set loading(bool value) {
-    _$loadingAtom.reportWrite(value, super.loading, () {
-      super.loading = value;
+  set phone(String? value) {
+    _$phoneAtom.reportWrite(value, super.phone, () {
+      super.phone = value;
     });
   }
 
@@ -228,14 +244,26 @@ mixin _$SignupStore on _SignupStoreBase, Store {
   }
 
   @override
+  dynamic clearError() {
+    final _$actionInfo = _$_SignupStoreBaseActionController.startAction(
+        name: '_SignupStoreBase.clearError');
+    try {
+      return super.clearError();
+    } finally {
+      _$_SignupStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-name: ${name},
 email: ${email},
-phone: ${phone},
+error: ${error},
+loading: ${loading},
+name: ${name},
 pass1: ${pass1},
 pass2: ${pass2},
-loading: ${loading},
+phone: ${phone},
 nameValid: ${nameValid},
 emailValid: ${emailValid},
 phoneValid: ${phoneValid},

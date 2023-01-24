@@ -6,7 +6,8 @@ import 'stores/page_store.dart';
 import 'stores/signup_store.dart';
 import 'secret.dart';
 
-const double circularProgressStrokeWidh = 2.75;
+const double gCircularProgressStrokeWidh = 2.75;
+const bool gDebug = true;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
