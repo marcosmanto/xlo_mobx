@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xlo_mobx/screens/login/login_screen.dart';
+import '../../screens/login/login_screen.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
   const CustomDrawerHeader({super.key});

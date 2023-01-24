@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:xlo_mobx/main.dart';
-import 'package:xlo_mobx/screens/signup/components/field_title.dart';
-import 'package:xlo_mobx/stores/signup_store.dart';
+import '../../main.dart';
+import 'components/field_title.dart';
+import '../../stores/signup_store.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({super.key});

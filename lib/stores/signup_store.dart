@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:xlo_mobx/helpers/extensions.dart';
+import '../helpers/extensions.dart';
+import '../models/user.dart';
+import '../repositories/user_repository.dart';
 part 'signup_store.g.dart';
 
 class SignupStore = _SignupStoreBase with _$SignupStore;
@@ -18,13 +20,29 @@ abstract class _SignupStoreBase with Store {
   }
 
   @observable
+  String? email;
+
+  @observable
+  bool loading = false;
+
+  @observable
   String? name;
+
+  @observable
+  String? pass1;
+
+  @observable
+  String? pass2;
+
+  @observable
+  String? phone;
 
   @action
   setname(String value) => name = value.trim();
 
   @computed
   bool get nameValid => name != null && name!.length > 6;
+
   String? get nameError {
     if (name == null || nameValid) {
       return null;
@@ -35,12 +53,12 @@ abstract class _SignupStoreBase with Store {
     }
   }
 
-  @observable
-  String? email;
   @action
   setEmail(String? value) => email = value;
+
   @computed
   bool get emailValid => email != null && email.isEmailValid();
+
   String? get emailError {
     if (email == null || emailValid) {
       return null;
@@ -51,12 +69,12 @@ abstract class _SignupStoreBase with Store {
     }
   }
 
-  @observable
-  String? phone;
   @action
   setPhone(String? value) => phone = value;
+
   @computed
   bool get phoneValid => phone != null && phone!.length >= 14;
+
   String? get phoneError {
     if (phone == null || phoneValid) {
       return null;
@@ -67,15 +85,15 @@ abstract class _SignupStoreBase with Store {
     }
   }
 
-  @observable
-  String? pass1;
   @action
   setPass1(String? value) => pass1 = value;
+
   @computed
   bool get pass1Valid =>
       pass1 != null &&
       RegExp(r'^(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=.*\d).+$')
           .hasMatch(pass1!);
+
   String? get pass1Error {
     if (pass1 == null || pass1Valid) {
       return null;
@@ -86,12 +104,12 @@ abstract class _SignupStoreBase with Store {
     }
   }
 
-  @observable
-  String? pass2;
   @action
   setPass2(String? value) => pass2 = value;
+
   @computed
   bool get pass2Valid => pass2 != null && pass2 == pass1;
+
   String? get pass2Error {
     if (pass2 == null || pass2Valid) {
       return null;
@@ -112,14 +130,18 @@ abstract class _SignupStoreBase with Store {
   @computed
   Color? get textColor => loading ? Colors.grey : null;
 
-  @observable
-  bool loading = false;
-
   @action
   Future<void> _signUp() async {
     loading = true;
 
-    await Future.delayed(Duration(seconds: 4));
+    final user = User(
+      name: name!,
+      email: email!,
+      phone: phone!,
+      password: pass1!,
+    );
+
+    await UserRepository().signUp(user);
 
     loading = false;
   }

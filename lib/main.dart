@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:xlo_mobx/screens/base/base_screen.dart';
-import 'package:xlo_mobx/stores/page_store.dart';
-import 'package:xlo_mobx/stores/signup_store.dart';
+import 'screens/base/base_screen.dart';
+import 'stores/page_store.dart';
+import 'stores/signup_store.dart';
 import 'secret.dart';
 
 const double circularProgressStrokeWidh = 2.75;

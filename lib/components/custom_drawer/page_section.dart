@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:xlo_mobx/stores/page_store.dart';
+import '../../stores/page_store.dart';
 
 import 'page_tile.dart';
 
