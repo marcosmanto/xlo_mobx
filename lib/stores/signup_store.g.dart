@@ -51,6 +51,20 @@ mixin _$SignupStore on _SignupStoreBase, Store {
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
               name: '_SignupStoreBase.isFormValid'))
           .value;
+  Computed<dynamic>? _$signUpPressedComputed;
+
+  @override
+  dynamic get signUpPressed =>
+      (_$signUpPressedComputed ??= Computed<dynamic>(() => super.signUpPressed,
+              name: '_SignupStoreBase.signUpPressed'))
+          .value;
+  Computed<Color?>? _$textColorComputed;
+
+  @override
+  Color? get textColor =>
+      (_$textColorComputed ??= Computed<Color?>(() => super.textColor,
+              name: '_SignupStoreBase.textColor'))
+          .value;
 
   late final _$nameAtom = Atom(name: '_SignupStoreBase.name', context: context);
 
@@ -131,6 +145,30 @@ mixin _$SignupStore on _SignupStoreBase, Store {
     });
   }
 
+  late final _$loadingAtom =
+      Atom(name: '_SignupStoreBase.loading', context: context);
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  late final _$_signUpAsyncAction =
+      AsyncAction('_SignupStoreBase._signUp', context: context);
+
+  @override
+  Future<void> _signUp() {
+    return _$_signUpAsyncAction.run(() => super._signUp());
+  }
+
   late final _$_SignupStoreBaseActionController =
       ActionController(name: '_SignupStoreBase', context: context);
 
@@ -197,12 +235,15 @@ email: ${email},
 phone: ${phone},
 pass1: ${pass1},
 pass2: ${pass2},
+loading: ${loading},
 nameValid: ${nameValid},
 emailValid: ${emailValid},
 phoneValid: ${phoneValid},
 pass1Valid: ${pass1Valid},
 pass2Valid: ${pass2Valid},
-isFormValid: ${isFormValid}
+isFormValid: ${isFormValid},
+signUpPressed: ${signUpPressed},
+textColor: ${textColor}
     ''';
   }
 }

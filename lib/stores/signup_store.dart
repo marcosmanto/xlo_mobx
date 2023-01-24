@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:xlo_mobx/helpers/extensions.dart';
 part 'signup_store.g.dart';
@@ -11,6 +12,8 @@ abstract class _SignupStoreBase with Store {
       print('pass1: $pass1');
       // ignore: avoid_print
       print('pass2: $pass2');
+      // ignore: avoid_print
+      print('isFormValid: $isFormValid');
     });
   }
 
@@ -104,16 +107,19 @@ abstract class _SignupStoreBase with Store {
       nameValid && emailValid && phoneValid && pass1Valid && pass2Valid;
 
   @computed
-  void Function()? get signUpPressed => isFormValid ? _signUp : null;
+  dynamic get signUpPressed => isFormValid && !loading ? _signUp : null;
+
+  @computed
+  Color? get textColor => loading ? Colors.grey : null;
 
   @observable
-  bool? loading;
+  bool loading = false;
 
   @action
   Future<void> _signUp() async {
     loading = true;
 
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 4));
 
     loading = false;
   }

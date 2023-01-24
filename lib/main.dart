@@ -6,6 +6,8 @@ import 'package:xlo_mobx/stores/page_store.dart';
 import 'package:xlo_mobx/stores/signup_store.dart';
 import 'secret.dart';
 
+const double circularProgressStrokeWidh = 2.75;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeParse();

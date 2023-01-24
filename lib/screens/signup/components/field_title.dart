@@ -5,10 +5,12 @@ class FieldTitle extends StatelessWidget {
     super.key,
     required this.title,
     required this.subtitle,
+    this.textColor,
   });
 
   final String title;
   final String subtitle;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class FieldTitle extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              color: Colors.grey[800],
+              color: textColor ?? Colors.grey[800],
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
