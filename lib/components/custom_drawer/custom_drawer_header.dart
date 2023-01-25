@@ -73,7 +73,7 @@ class CustomDrawerHeader extends StatelessWidget {
                         width: 80,
                         margin: const EdgeInsets.only(top: 6),
                         child: ElevatedButton(
-                          onPressed: userManagerStore.clearUser,
+                          onPressed: userManagerStore.logout,
                           style: ElevatedButton.styleFrom(
                             foregroundColor:
                                 Theme.of(context).colorScheme.primary,

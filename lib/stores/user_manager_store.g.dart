@@ -33,26 +33,23 @@ mixin _$UserManagerStore on _UserManagerStoreBase, Store {
     });
   }
 
+  late final _$logoutAsyncAction =
+      AsyncAction('_UserManagerStoreBase.logout', context: context);
+
+  @override
+  Future<void> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
+  }
+
   late final _$_UserManagerStoreBaseActionController =
       ActionController(name: '_UserManagerStoreBase', context: context);
 
   @override
-  dynamic setUser(User value) {
+  dynamic setUser(User? value) {
     final _$actionInfo = _$_UserManagerStoreBaseActionController.startAction(
         name: '_UserManagerStoreBase.setUser');
     try {
       return super.setUser(value);
-    } finally {
-      _$_UserManagerStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic clearUser() {
-    final _$actionInfo = _$_UserManagerStoreBaseActionController.startAction(
-        name: '_UserManagerStoreBase.clearUser');
-    try {
-      return super.clearUser();
     } finally {
       _$_UserManagerStoreBaseActionController.endAction(_$actionInfo);
     }
