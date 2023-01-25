@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:xlo_mobx/repositories/user_repository.dart';
+import 'package:xlo_mobx/stores/user_manager_store.dart';
 
 import '../helpers/extensions.dart';
 
@@ -77,9 +79,9 @@ abstract class _LoginStoreBase with Store {
 
     clearError();
 
-    final user;
     try {
-      user = await UserRepository().loginWithEmail(email!, password!);
+      final user = await UserRepository().loginWithEmail(email!, password!);
+      GetIt.I<UserManagerStore>().setUser(user);
     } catch (e) {
       error = e.toString();
     }

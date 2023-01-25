@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:xlo_mobx/stores/login_store.dart';
+import 'package:xlo_mobx/stores/user_manager_store.dart';
 
 import 'screens/base/base_screen.dart';
 import 'secret.dart';
@@ -32,6 +33,7 @@ void setupLocators() {
   GetIt.I.registerSingleton<PageStore>(PageStore());
   GetIt.I.registerSingleton<LoginStore>(LoginStore());
   GetIt.I.registerSingleton<SignupStore>(SignupStore());
+  GetIt.I.registerSingleton<UserManagerStore>(UserManagerStore());
 }
 
 class MyApp extends StatelessWidget {
