@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:xlo_mobx/repositories/user_repository.dart';
 
 import '../helpers/extensions.dart';
 
@@ -74,7 +75,14 @@ abstract class _LoginStoreBase with Store {
   Future<void> _login() async {
     loading = true;
 
-    await Future.delayed(Duration(seconds: 4));
+    clearError();
+
+    final user;
+    try {
+      user = await UserRepository().loginWithEmail(email!, password!);
+    } catch (e) {
+      error = e.toString();
+    }
 
     loading = false;
   }

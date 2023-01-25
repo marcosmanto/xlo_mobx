@@ -9,7 +9,7 @@ import 'stores/page_store.dart';
 import 'stores/signup_store.dart';
 
 const double gCircularProgressStrokeWidh = 2.75;
-const bool gDebug = true;
+const bool gDebug = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

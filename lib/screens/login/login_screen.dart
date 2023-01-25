@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: EdgeInsets.symmetric(horizontal: 32),
                 elevation: 4,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 22, 16, 5),
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 5),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -74,7 +74,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           child: Text('Limpar erro'),
                         ),
-                      ErrorBox(message: loginStore.error),
+                      ErrorBox(
+                        message: loginStore.error,
+                      ),
                       Text(
                         'Acessar com E-mail:',
                         textAlign: TextAlign.center,

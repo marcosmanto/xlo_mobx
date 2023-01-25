@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ErrorBox extends StatelessWidget {
-  const ErrorBox({super.key, this.message});
+  const ErrorBox({
+    super.key,
+    this.message,
+    this.margin = const EdgeInsets.only(bottom: 8),
+  });
 
   final String? message;
+  final EdgeInsets margin;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class ErrorBox extends StatelessWidget {
           horizontal: 6,
           vertical: 8,
         ),
-        margin: const EdgeInsets.only(bottom: 8),
+        margin: margin,
         child: Row(
           children: [
             Container(

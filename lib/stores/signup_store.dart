@@ -142,6 +142,8 @@ abstract class _SignupStoreBase with Store {
   Future<void> _signUp() async {
     loading = true;
 
+    clearError();
+
     final user = User(
       name: name!,
       email: email!,
@@ -152,7 +154,6 @@ abstract class _SignupStoreBase with Store {
     try {
       final resultUser = await UserRepository().signUp(user);
       print(resultUser);
-      clearError();
     } catch (e) {
       error = e.toString();
     }
