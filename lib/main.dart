@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:xlo_mobx/stores/login_store.dart';
+
 import 'screens/base/base_screen.dart';
+import 'secret.dart';
 import 'stores/page_store.dart';
 import 'stores/signup_store.dart';
-import 'secret.dart';
 
 const double gCircularProgressStrokeWidh = 2.75;
 const bool gDebug = true;
@@ -28,6 +30,7 @@ Future<void> initializeParse() async {
 
 void setupLocators() {
   GetIt.I.registerSingleton<PageStore>(PageStore());
+  GetIt.I.registerSingleton<LoginStore>(LoginStore());
   GetIt.I.registerSingleton<SignupStore>(SignupStore());
 }
 

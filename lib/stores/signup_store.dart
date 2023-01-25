@@ -10,17 +10,6 @@ part 'signup_store.g.dart';
 class SignupStore = _SignupStoreBase with _$SignupStore;
 
 abstract class _SignupStoreBase with Store {
-  _SignupStoreBase() {
-    autorun((_) {
-      // ignore: avoid_print
-      print('pass1: $pass1');
-      // ignore: avoid_print
-      print('pass2: $pass2');
-      // ignore: avoid_print
-      print('isFormValid: $isFormValid');
-    });
-  }
-
   @observable
   String? email;
 
@@ -138,6 +127,17 @@ abstract class _SignupStoreBase with Store {
   @action
   clearError() => error = null;
 
+  /*_SignupStoreBase() {
+    autorun((_) {
+      // ignore: avoid_print
+      print('pass1: $pass1');
+      // ignore: avoid_print
+      print('pass2: $pass2');
+      // ignore: avoid_print
+      print('isFormValid: $isFormValid');
+    });
+  }*/
+
   @action
   Future<void> _signUp() async {
     loading = true;
@@ -152,7 +152,7 @@ abstract class _SignupStoreBase with Store {
     try {
       final resultUser = await UserRepository().signUp(user);
       print(resultUser);
-      error = null;
+      clearError();
     } catch (e) {
       error = e.toString();
     }

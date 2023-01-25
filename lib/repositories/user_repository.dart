@@ -1,6 +1,6 @@
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:xlo_mobx/repositories/parse_errors.dart';
-import 'package:xlo_mobx/repositories/table_keys.dart';
+import 'parse_errors.dart';
+import 'table_keys.dart';
 
 import '../models/user.dart';
 

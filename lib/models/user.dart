@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-
 import 'package:xlo_mobx/repositories/table_keys.dart';
 
 enum UserType { particular, professional }

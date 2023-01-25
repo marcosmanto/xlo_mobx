@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+
 part 'page_store.g.dart';
 
 class PageStore = _PageStoreBase with _$PageStore;

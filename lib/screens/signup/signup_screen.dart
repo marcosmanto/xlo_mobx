@@ -4,10 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+
 import '../../components/error_box.dart';
 import '../../main.dart';
-import 'components/field_title.dart';
 import '../../stores/signup_store.dart';
+import 'components/field_title.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({super.key});
@@ -17,7 +18,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  // local service instance
+  // global service instance
   final signupStore = GetIt.I<SignupStore>();
 
   @override
@@ -47,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             : null,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(signupStore.loading ? 'Aguarde' : 'Entrar'),
+            title: Text(signupStore.loading ? 'Aguarde' : 'Cadastro'),
             centerTitle: true,
           ),
           body: Container(
@@ -74,11 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           child: Text('Limpar erro'),
                         ),
-                      Observer(
-                        builder: (_) {
-                          return ErrorBox(message: signupStore.error);
-                        },
-                      ),
+                      ErrorBox(message: signupStore.error),
                       FieldTitle(
                         title: 'Apelido',
                         subtitle: 'Como aparecerá em seus anúncios',

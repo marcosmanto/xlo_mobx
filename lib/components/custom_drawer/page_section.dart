@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import '../../stores/page_store.dart';
 
+import '../../stores/page_store.dart';
 import 'page_tile.dart';
 
 class PageSection extends StatelessWidget {
