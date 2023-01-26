@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ImageSourceModal extends StatelessWidget {
   const ImageSourceModal({super.key});
@@ -27,14 +28,14 @@ class ImageSourceModal extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              onPressed: () {},
+              onPressed: getFromCamera,
             ),
             TextButton.icon(
               icon: Icon(
                 Icons.list_alt,
                 size: 25,
               ),
-              onPressed: () {},
+              onPressed: getFromGallery,
               label: Text(
                 'Galeria',
                 style: TextStyle(
@@ -51,21 +52,38 @@ class ImageSourceModal extends StatelessWidget {
         title: Text('Selecionar foto para o anúncio'),
         message: Text('Escolha a origem da foto:'),
         cancelButton: CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('Cancelar')),
+          onPressed: Navigator.of(context).pop,
+          child: Text('Cancelar'),
+        ),
         actions: [
           CupertinoActionSheetAction(
-            onPressed: () {},
+            onPressed: getFromCamera,
             child: Text('Câmera'),
           ),
           CupertinoActionSheetAction(
-            onPressed: () {},
+            onPressed: getFromGallery,
             child: Text('Galeria'),
           ),
         ],
       );
     }
+  }
+
+  Future<void> getFromCamera() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (image != null) {
+      imageSelected(File(image.path));
+    }
+  }
+
+  Future<void> getFromGallery() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      imageSelected(File(image.path));
+    }
+  }
+
+  void imageSelected(File imageFile) {
+    print(imageFile.path);
   }
 }

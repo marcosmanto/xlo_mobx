@@ -67,7 +67,8 @@ class AdFormField extends StatelessWidget {
     super.key,
     required this.labelText,
     this.expandable = false,
-    this.maxHeight,
+    this.maxHeight = 100,
+    this.minHeight = 60,
     this.isRequired = false,
     this.marginBottom = 8,
     this.decreaseWidth = 10,
@@ -84,7 +85,8 @@ class AdFormField extends StatelessWidget {
   final String? prefixText;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
-  final double? maxHeight;
+  final double maxHeight;
+  final double minHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +103,8 @@ class AdFormField extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
           contentPadding: EdgeInsets.fromLTRB(0, 0, 12, 0),
-          constraints: BoxConstraints.tightFor(height: maxHeight),
+          constraints:
+              BoxConstraints(minHeight: minHeight, maxHeight: maxHeight),
           prefixText: prefixText,
           prefixStyle: TextStyle(
             fontSize: 16,
