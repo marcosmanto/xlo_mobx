@@ -6,6 +6,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:xlo_mobx/screens/create/components/image_source_modal.dart';
 import 'package:xlo_mobx/stores/create_store.dart';
 
+import 'image_dialog.dart';
+
 class ImagesField extends StatelessWidget {
   const ImagesField(this.createStore, {super.key});
 
@@ -52,7 +54,7 @@ class ImagesField extends StatelessWidget {
                         }
                       },
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
+                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                         child: CircleAvatar(
                           radius: 44,
                           backgroundColor: Colors.grey[300],
@@ -85,7 +87,15 @@ class ImagesField extends StatelessWidget {
                     );
                   } else {
                     return GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => ImageDialog(
+                            image: createStore.images[index],
+                            onDelete: () => createStore.images.removeAt(index),
+                          ),
+                        );
+                      },
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(
                           8,
