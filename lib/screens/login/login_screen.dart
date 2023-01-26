@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:xlo_mobx/main.dart';
+import '../../main.dart';
 
 import '../../components/error_box.dart';
 import '../../stores/login_store.dart';

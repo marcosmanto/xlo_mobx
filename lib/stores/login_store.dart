@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:xlo_mobx/repositories/user_repository.dart';
-import 'package:xlo_mobx/stores/user_manager_store.dart';
+import '../repositories/user_repository.dart';
+import 'user_manager_store.dart';
 
 import '../helpers/extensions.dart';
 

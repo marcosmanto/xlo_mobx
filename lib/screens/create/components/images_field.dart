@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:xlo_mobx/screens/create/components/image_source_modal.dart';
-import 'package:xlo_mobx/stores/create_store.dart';
+import 'image_source_modal.dart';
+import '../../../stores/create_store.dart';
 
 import 'image_dialog.dart';
 

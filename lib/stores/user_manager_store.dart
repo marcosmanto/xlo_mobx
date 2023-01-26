@@ -1,5 +1,5 @@
 import 'package:mobx/mobx.dart';
-import 'package:xlo_mobx/repositories/user_repository.dart';
+import '../repositories/user_repository.dart';
 import '../models/user.dart';
 part 'user_manager_store.g.dart';
 

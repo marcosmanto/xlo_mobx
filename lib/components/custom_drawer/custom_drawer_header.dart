@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:xlo_mobx/stores/page_store.dart';
+import '../../stores/page_store.dart';
 
 import '../../screens/login/login_screen.dart';
 import '../../stores/user_manager_store.dart';
