@@ -1,12 +1,17 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:xlo_mobx/components/custom_drawer/custom_drawer.dart';
+import 'package:xlo_mobx/stores/create_store.dart';
 
 import 'components/images_field.dart';
 
 class CreateScreen extends StatelessWidget {
-  const CreateScreen({super.key});
+  CreateScreen({super.key});
+
+  //final CreateStore createStore = CreateStore();
+  final CreateStore createStore = GetIt.I<CreateStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +34,7 @@ class CreateScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                ImagesField(),
+                ImagesField(createStore),
                 AdFormField(
                   labelText: 'Título',
                   isRequired: true,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:xlo_mobx/stores/create_store.dart';
 import 'package:xlo_mobx/stores/login_store.dart';
 import 'package:xlo_mobx/stores/user_manager_store.dart';
 
@@ -34,6 +35,7 @@ void setupLocators() {
   GetIt.I.registerSingleton<LoginStore>(LoginStore());
   GetIt.I.registerSingleton<SignupStore>(SignupStore());
   GetIt.I.registerSingleton<UserManagerStore>(UserManagerStore());
+  GetIt.I.registerSingleton<CreateStore>(CreateStore());
 }
 
 class MyApp extends StatelessWidget {
