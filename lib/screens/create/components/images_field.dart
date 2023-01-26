@@ -9,6 +9,13 @@ class ImagesField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void onImageSelected(File? image) {
+      Navigator.of(context).pop();
+      if (image != null) {
+        print(image.path);
+      }
+    }
+
     return Transform.scale(
       scaleX: 1.12,
       scaleY: 1.12,
@@ -25,12 +32,12 @@ class ImagesField extends StatelessWidget {
                 if (Platform.isAndroid) {
                   showModalBottomSheet(
                     context: context,
-                    builder: (_) => ImageSourceModal(),
+                    builder: (_) => ImageSourceModal(onImageSelected),
                   );
                 } else {
                   showCupertinoModalPopup(
                     context: context,
-                    builder: (_) => ImageSourceModal(),
+                    builder: (_) => ImageSourceModal(onImageSelected),
                   );
                 }
               },

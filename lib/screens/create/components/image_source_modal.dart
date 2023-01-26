@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageSourceModal extends StatelessWidget {
-  const ImageSourceModal({super.key});
+  const ImageSourceModal(this.onImageSelected, {super.key});
+
+  final Function(File?) onImageSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +86,29 @@ class ImageSourceModal extends StatelessWidget {
     }
   }
 
-  void imageSelected(File imageFile) {
-    print(imageFile.path);
+  Future<void> imageSelected(File imageFile) async {
+    final croppedFile = await ImageCropper().cropImage(
+      sourcePath: imageFile.path,
+      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Editar imagem',
+          toolbarColor: Colors.purple,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: true,
+        ),
+        IOSUiSettings(
+          title: 'Editar imagem',
+          cancelButtonTitle: 'Cancelar',
+          doneButtonTitle: 'Concluir',
+        ),
+      ],
+    );
+    if (croppedFile != null) {
+      onImageSelected(File(croppedFile.path));
+    } else {
+      onImageSelected(null);
+    }
   }
 }
