@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:xlo_mobx/screens/create/components/image_source_modal.dart';
 
 class ImagesField extends StatelessWidget {
   const ImagesField({super.key});
@@ -24,12 +25,12 @@ class ImagesField extends StatelessWidget {
                 if (Platform.isAndroid) {
                   showModalBottomSheet(
                     context: context,
-                    builder: (context) => Container(),
+                    builder: (_) => ImageSourceModal(),
                   );
                 } else {
                   showCupertinoModalPopup(
                     context: context,
-                    builder: (context) => Container(),
+                    builder: (_) => ImageSourceModal(),
                   );
                 }
               },
