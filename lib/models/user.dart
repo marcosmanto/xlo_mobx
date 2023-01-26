@@ -26,7 +26,7 @@ class User {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      keyUserId: id,
+      keyParseID: id,
       keyUserName: name,
       keyUserEmail: email,
       keyUserPhone: phone,
@@ -36,18 +36,18 @@ class User {
 
   /*factory User.fromParse(ParseUser user) {
     return User(
-      id: user.get(keyUserId),
+      id: user.get(keyParseID),
       name: user.get(keyUserName),
       email: user.get(keyUserEmail),
       phone: user.get(keyUserPhone),
       type: UserType.values[user.get(keyUserType)],
-      createdAt: user.get(keyUserCreatedAt),
+      createdAt: user.get(keyParseCreatedAt),
     );
   }*/
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map[keyUserId],
+      id: map[keyParseID],
       name: map[keyUserName] as String,
       email: map[keyUserEmail] as String,
       phone: map[keyUserPhone] as String,

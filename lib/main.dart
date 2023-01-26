@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:xlo_mobx/repositories/category_repository.dart';
 import 'stores/create_store.dart';
 import 'stores/login_store.dart';
 import 'stores/user_manager_store.dart';
@@ -28,6 +29,13 @@ Future<void> initializeParse() async {
     autoSendSessionId: true,
     debug: true,
   );
+
+  try {
+    final categories = await CategoryRepository().getList();
+    print(categories);
+  } catch (e) {
+    print(e);
+  }
 }
 
 void setupLocators() {
