@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:xlo_mobx/components/custom_drawer/custom_drawer.dart';
 
+import 'components/images_field.dart';
+
 class CreateScreen extends StatelessWidget {
   const CreateScreen({super.key});
 
@@ -16,6 +18,7 @@ class CreateScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Card(
+          clipBehavior: Clip.antiAlias,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
           margin: EdgeInsets.symmetric(horizontal: 32),
@@ -26,6 +29,7 @@ class CreateScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                ImagesField(),
                 AdFormField(
                   labelText: 'Título',
                   isRequired: true,
