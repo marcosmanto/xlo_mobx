@@ -2,14 +2,14 @@
 import 'dart:convert';
 
 class UF {
-  int id;
-  String initials;
-  String name;
+  int? id;
+  String? initials;
+  String? name;
 
   UF({
-    required this.id,
-    required this.initials,
-    required this.name,
+    this.id,
+    this.initials,
+    this.name,
   });
 
   UF copyWith({

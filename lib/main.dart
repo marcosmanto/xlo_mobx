@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:xlo_mobx/models/uf.dart';
-import 'package:xlo_mobx/repositories/ibge_repository.dart';
+import 'package:xlo_mobx/repositories/cep_repository.dart';
 import 'package:xlo_mobx/stores/category_store.dart';
 import 'stores/create_store.dart';
 import 'stores/login_store.dart';
@@ -21,11 +20,8 @@ void main() async {
   await initializeParse();
   setupLocators();
   runApp(const MyApp());
-  IbgeRepository().getUFList().then((value) {
-    IbgeRepository()
-        .getCityListFromApi(value.first)
-        .catchError((err) => print(err));
-  }).catchError((err) => print(err));
+  final address =
+      await CepRepository().getAddressFromApi('91788-130', doCitySearch: true);
 }
 
 Future<void> initializeParse() async {

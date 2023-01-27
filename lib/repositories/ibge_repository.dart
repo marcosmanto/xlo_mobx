@@ -12,7 +12,12 @@ class IbgeRepository {
     if (preferences.containsKey('UF_LIST')) {
       final jsonDecoded = jsonDecode(preferences.getString('UF_LIST')!);
       return jsonDecoded.map<UF>((ufMap) => UF.fromMap(ufMap)).toList()
-        ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        ..sort((UF a, UF b) {
+          if (a.name != null && b.name != null) {
+            return a.name!.toLowerCase().compareTo(b.name!.toLowerCase());
+          }
+          return 0;
+        });
     }
 
     const endpoint =
@@ -23,11 +28,14 @@ class IbgeRepository {
 
       if (response.data != null) {
         preferences.setString('UF_LIST', jsonEncode(response.data));
-        final ufList = response.data!
-            .map<UF>((ufMap) => UF.fromMap(ufMap))
-            .toList()
-          ..sort(
-              (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        final ufList =
+            response.data!.map<UF>((ufMap) => UF.fromMap(ufMap)).toList()
+              ..sort((UF a, UF b) {
+                if (a.name != null && b.name != null) {
+                  return a.name!.toLowerCase().compareTo(b.name!.toLowerCase());
+                }
+                return 0;
+              });
 
         return ufList;
       } else {
@@ -38,9 +46,10 @@ class IbgeRepository {
     }
   }
 
-  getCityListFromApi(UF uf) async {
+  Future<List<City>> getCityListFromApi(UF uf) async {
+    final dynamic idOrInitial = uf.id ?? uf.initials;
     final endpoint =
-        'https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf.id}/municipios';
+        'https://servicodados.ibge.gov.br/api/v1/localidades/estados/$idOrInitial/municipios';
 
     try {
       final response = await Dio().get<List>(endpoint);
@@ -50,7 +59,7 @@ class IbgeRepository {
             .toList()
           ..sort(
               (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-        print(cityList);
+        //print(cityList);
         return cityList;
       } else {
         return Future.error('Nenhuma cidade retornada.');
