@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:xlo_mobx/components/error_box.dart';
+import 'package:xlo_mobx/components/message_box.dart';
 import 'package:xlo_mobx/stores/cep_store.dart';
 import '../../components/custom_drawer/custom_drawer.dart';
 import '../../stores/create_store.dart';
@@ -79,34 +79,25 @@ class CreateScreen extends StatelessWidget {
                           child: LinearProgressIndicator(),
                         );
                       } else if (cepStore.error != null) {
-                        return ErrorBox(
+                        return MessageBox(
                           message: cepStore.error,
                         );
                       } else {
                         final a = cepStore.address;
                         return Transform.translate(
                           offset: Offset(0, -20),
-                          child: Container(
-                            padding: const EdgeInsets.only(left: 12),
-                            alignment: Alignment.topLeft,
-                            child: Chip(
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              labelPadding: const EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 2,
-                              ),
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary,
-                              label: Text(
+                          child: MessageBox(
+                            message:
                                 '${a!.district}, ${a.city.name}/${a.uf.initials}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            iconSize: 20,
+                            icon: Icons.location_pin,
+                            isError: false,
+                            borderRadius: 32,
+                            fontWeight: FontWeight.bold,
+                            margin: const EdgeInsets.only(left: 10),
+                            padding: EdgeInsets.zero,
                           ),
                         );
                       }

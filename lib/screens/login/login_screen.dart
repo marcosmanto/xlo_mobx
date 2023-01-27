@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import '../../main.dart';
 
-import '../../components/error_box.dart';
+import '../../components/message_box.dart';
 import '../../stores/login_store.dart';
 import '../signup/signup_screen.dart';
 
@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           child: Text('Limpar erro'),
                         ),
-                      ErrorBox(
+                      MessageBox(
                         message: loginStore.error,
                       ),
                       Text(

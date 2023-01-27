@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:xlo_mobx/components/error_box.dart';
+import 'package:xlo_mobx/components/message_box.dart';
 import 'package:xlo_mobx/models/category.dart';
 import 'package:xlo_mobx/stores/category_store.dart';
 
@@ -34,7 +34,7 @@ class CategoryScreen extends StatelessWidget {
           margin: const EdgeInsets.fromLTRB(32, 12, 32, 32),
           child: Observer(builder: (_) {
             if (categoryStore.error != null) {
-              return ErrorBox(message: categoryStore.error);
+              return MessageBox(message: categoryStore.error);
             } else if (categoryStore.categoryList.isEmpty) {
               return Center(child: CircularProgressIndicator());
             } else {

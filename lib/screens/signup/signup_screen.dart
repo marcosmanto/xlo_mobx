@@ -5,7 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../components/error_box.dart';
+import '../../components/message_box.dart';
 import '../../main.dart';
 import '../../stores/signup_store.dart';
 import 'components/field_title.dart';
@@ -75,7 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           child: Text('Limpar erro'),
                         ),
-                      ErrorBox(message: signupStore.error),
+                      MessageBox(message: signupStore.error),
                       FieldTitle(
                         title: 'Apelido',
                         subtitle: 'Como aparecerá em seus anúncios',
