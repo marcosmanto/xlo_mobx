@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:xlo_mobx/repositories/category_repository.dart';
+import 'package:xlo_mobx/screens/category/category_screen.dart';
+import 'package:xlo_mobx/stores/category_store.dart';
 import 'stores/create_store.dart';
 import 'stores/login_store.dart';
 import 'stores/user_manager_store.dart';
@@ -29,13 +31,6 @@ Future<void> initializeParse() async {
     autoSendSessionId: true,
     debug: true,
   );
-
-  try {
-    final categories = await CategoryRepository().getList();
-    print(categories);
-  } catch (e) {
-    print(e);
-  }
 }
 
 void setupLocators() {
@@ -44,6 +39,7 @@ void setupLocators() {
   GetIt.I.registerSingleton<SignupStore>(SignupStore());
   GetIt.I.registerSingleton<UserManagerStore>(UserManagerStore());
   GetIt.I.registerSingleton<CreateStore>(CreateStore());
+  GetIt.I.registerSingleton(CategoryStore());
 }
 
 class MyApp extends StatelessWidget {
@@ -62,7 +58,7 @@ class MyApp extends StatelessWidget {
           secondary: Colors.cyanAccent[200],
         ),
       ),
-      home: BaseScreen(),
+      home: CategoryScreen(),
     );
   }
 }
