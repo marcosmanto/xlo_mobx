@@ -1,20 +1,34 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xlo_mobx/models/city.dart';
 import 'package:xlo_mobx/models/uf.dart';
 
 class IbgeRepository {
   Future<List<UF>> getUFListFromApi() async {
+    final preferences = await SharedPreferences.getInstance();
+
+    if (preferences.containsKey('UF_LIST')) {
+      final jsonDecoded = jsonDecode(preferences.getString('UF_LIST')!);
+      return jsonDecoded.map<UF>((ufMap) => UF.fromMap(ufMap)).toList()
+        ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    }
+
     const endpoint =
         'https://servicodados.ibge.gov.br/api/v1/localidades/estados';
 
     try {
       final response = await Dio().get<List>(endpoint);
+
       if (response.data != null) {
+        preferences.setString('UF_LIST', jsonEncode(response.data));
         final ufList = response.data!
             .map<UF>((ufMap) => UF.fromMap(ufMap))
             .toList()
           ..sort(
               (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
         return ufList;
       } else {
         return Future.error('Nenhuma UF retornada.');
