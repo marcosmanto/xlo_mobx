@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import '../../components/custom_drawer/custom_drawer.dart';
 import '../../stores/create_store.dart';
 
+import 'components/category_field.dart';
 import 'components/images_field.dart';
 
 class CreateScreen extends StatelessWidget {
@@ -47,6 +48,7 @@ class CreateScreen extends StatelessWidget {
                   expandable: true,
                   maxHeight: 149,
                 ),
+                CategoryField(createStore),
                 AdFormField(
                   labelText: 'Preço',
                   isRequired: true,

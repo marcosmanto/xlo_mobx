@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:xlo_mobx/repositories/category_repository.dart';
-import 'package:xlo_mobx/screens/category/category_screen.dart';
 import 'package:xlo_mobx/stores/category_store.dart';
 import 'stores/create_store.dart';
 import 'stores/login_store.dart';
@@ -58,7 +56,7 @@ class MyApp extends StatelessWidget {
           secondary: Colors.cyanAccent[200],
         ),
       ),
-      home: CategoryScreen(),
+      home: BaseScreen(),
     );
   }
 }

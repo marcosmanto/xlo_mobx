@@ -51,7 +51,7 @@ class CategoryScreen extends StatelessWidget {
                   final category = categories[index];
                   return InkWell(
                     onTap: () {
-                      Navigator.of(context).pop(category.description);
+                      Navigator.of(context).pop(category);
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -65,6 +65,8 @@ class CategoryScreen extends StatelessWidget {
                       child: Text(
                         category.description,
                         style: TextStyle(
+                          color:
+                              category.id == selected?.id ? null : Colors.grey,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
