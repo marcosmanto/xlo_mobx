@@ -21,7 +21,7 @@ void main() async {
   await initializeParse();
   setupLocators();
   runApp(const MyApp());
-  IbgeRepository().getUFListFromApi().then((value) {
+  IbgeRepository().getUFList().then((value) {
     IbgeRepository()
         .getCityListFromApi(value.first)
         .catchError((err) => print(err));

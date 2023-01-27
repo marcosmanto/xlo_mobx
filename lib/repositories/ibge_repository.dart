@@ -6,7 +6,7 @@ import 'package:xlo_mobx/models/city.dart';
 import 'package:xlo_mobx/models/uf.dart';
 
 class IbgeRepository {
-  Future<List<UF>> getUFListFromApi() async {
+  Future<List<UF>> getUFList() async {
     final preferences = await SharedPreferences.getInstance();
 
     if (preferences.containsKey('UF_LIST')) {
