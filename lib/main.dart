@@ -20,8 +20,6 @@ void main() async {
   await initializeParse();
   setupLocators();
   runApp(const MyApp());
-  final address =
-      await CepRepository().getAddressFromApi('91788-130', doCitySearch: true);
 }
 
 Future<void> initializeParse() async {

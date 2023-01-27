@@ -1,7 +1,10 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:xlo_mobx/components/error_box.dart';
+import 'package:xlo_mobx/stores/cep_store.dart';
 import '../../components/custom_drawer/custom_drawer.dart';
 import '../../stores/create_store.dart';
 
@@ -13,6 +16,7 @@ class CreateScreen extends StatelessWidget {
 
   //final CreateStore createStore = CreateStore();
   final CreateStore createStore = GetIt.I<CreateStore>();
+  final CepStore cepStore = CepStore();
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,66 @@ class CreateScreen extends StatelessWidget {
                   maxHeight: 149,
                 ),
                 CategoryField(createStore),
+                Observer(builder: (_) {
+                  return AdFormField(
+                    onChanged: cepStore.setCep,
+                    labelText: 'CEP',
+                    isRequired: true,
+                    decreaseWidth: 12,
+                    expandable: false,
+                    maxHeight: 149,
+                    maxLength: 10,
+                    keyboardType: TextInputType.numberWithOptions(),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      CepInputFormatter(),
+                    ],
+                    child: () {
+                      if (cepStore.address == null &&
+                          cepStore.error == null &&
+                          !cepStore.loading) {
+                        return Container();
+                      } else if (cepStore.address == null &&
+                          cepStore.error == null) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 50),
+                          child: LinearProgressIndicator(),
+                        );
+                      } else if (cepStore.error != null) {
+                        return ErrorBox(
+                          message: cepStore.error,
+                        );
+                      } else {
+                        final a = cepStore.address;
+                        return Transform.translate(
+                          offset: Offset(0, -20),
+                          child: Container(
+                            padding: const EdgeInsets.only(left: 12),
+                            alignment: Alignment.topLeft,
+                            child: Chip(
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              labelPadding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 2,
+                              ),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              label: Text(
+                                '${a!.district}, ${a.city.name}/${a.uf.initials}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    }(),
+                  );
+                }),
                 AdFormField(
                   labelText: 'Preço',
                   isRequired: true,
@@ -82,6 +146,9 @@ class AdFormField extends StatelessWidget {
     this.prefixText,
     this.inputFormatters,
     this.keyboardType,
+    this.maxLength,
+    this.onChanged,
+    this.child,
   });
 
   final bool expandable;
@@ -94,38 +161,49 @@ class AdFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final double maxHeight;
   final double minHeight;
+  final int? maxLength;
+  final void Function(String)? onChanged;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: decreaseWidth),
-      margin: EdgeInsets.only(bottom: marginBottom),
-      child: TextFormField(
-        maxLines: expandable ? null : 1,
-        decoration: InputDecoration(
-          labelText: '$labelText${isRequired ? ' *' : ''}',
-          labelStyle: TextStyle(
-            color: Colors.grey,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-          contentPadding: EdgeInsets.fromLTRB(0, 0, 12, 0),
-          constraints:
-              BoxConstraints(minHeight: minHeight, maxHeight: maxHeight),
-          prefixText: prefixText,
-          prefixStyle: TextStyle(
-            fontSize: 16,
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.w600,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: decreaseWidth),
+          margin: EdgeInsets.only(bottom: marginBottom),
+          child: TextFormField(
+            onChanged: onChanged,
+            maxLength: maxLength,
+            maxLines: expandable ? null : 1,
+            decoration: InputDecoration(
+              labelText: '$labelText${isRequired ? ' *' : ''}',
+              labelStyle: TextStyle(
+                color: Colors.grey,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              contentPadding: EdgeInsets.fromLTRB(0, 0, 12, 0),
+              constraints:
+                  BoxConstraints(minHeight: minHeight, maxHeight: maxHeight),
+              prefixText: prefixText,
+              prefixStyle: TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w300,
+            ),
+            inputFormatters: inputFormatters,
+            keyboardType: keyboardType,
           ),
         ),
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w300,
-        ),
-        inputFormatters: inputFormatters,
-        keyboardType: keyboardType,
-      ),
+        if (child != null) child!
+      ],
     );
   }
 }

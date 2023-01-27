@@ -6,7 +6,7 @@ import '../models/city.dart';
 import '../models/uf.dart';
 
 class CepRepository {
-  Future getAddressFromApi(String cep, {doCitySearch = false}) async {
+  Future<Address> getAddressFromApi(String cep, {doCitySearch = false}) async {
     if (cep.isEmpty) {
       return Future.error('CEP inválido.');
     }
@@ -50,6 +50,8 @@ class CepRepository {
         return Future.error('CEP inválido.');
       }
     } on DioError {
+      return Future.error('Falha ao obter o CEP.');
+    } catch (e) {
       return Future.error('Falha ao obter o CEP.');
     }
   }
