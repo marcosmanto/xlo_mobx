@@ -9,6 +9,7 @@ import '../../components/custom_drawer/custom_drawer.dart';
 import '../../stores/create_store.dart';
 
 import 'components/category_field.dart';
+import 'components/hide_phone_field.dart';
 import 'components/images_field.dart';
 
 class CreateScreen extends StatelessWidget {
@@ -115,6 +116,21 @@ class CreateScreen extends StatelessWidget {
                     CentavosInputFormatter()
                   ],
                 ),
+                HidePhoneField(createStore),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: false
+                        ? Colors.transparent
+                        : Theme.of(context).colorScheme.primary,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: Text('ENVIAR'),
+                )
               ],
             ),
           ),

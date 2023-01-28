@@ -13,6 +13,11 @@ abstract class _CreateStoreBase with Store {
   @observable
   Category? category;
 
+  @observable
+  bool hidePhone = false;
+  @action
+  void setHidePhone(bool value) => hidePhone = value;
+
   @action
   void clearCategory() => category = null;
 
