@@ -23,98 +23,125 @@ class ImagesField extends StatelessWidget {
     }
 
     return Transform.scale(
-      scaleX: 1.12,
-      scaleY: 1.12,
-      origin: Offset(0, 120),
-      child: Container(
-          color: Colors.grey[200],
-          height: 120,
-          child: Observer(
-            builder: (_) {
-              final imagesCount = createStore.images.length;
-              return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: imagesCount < 5
-                    ? imagesCount + 1
-                    : 5, //limit images insertion to 5
-                itemBuilder: (_, int index) {
-                  if (index == imagesCount) {
-                    return GestureDetector(
-                      onTap: () {
-                        if (Platform.isAndroid) {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (_) => ImageSourceModal(onImageSelected),
-                          );
-                        } else {
-                          showCupertinoModalPopup(
-                            context: context,
-                            builder: (_) => ImageSourceModal(onImageSelected),
-                          );
-                        }
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                        child: CircleAvatar(
-                          radius: 44,
-                          backgroundColor: Colors.grey[300],
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
-                                size: 40,
+        scaleX: 1.12,
+        scaleY: 1.12,
+        origin: Offset(0, 120),
+        child: Observer(
+          builder: (_) {
+            final imagesCount = createStore.images.length;
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  color: Colors.grey[200],
+                  height: 120,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: imagesCount < 5
+                        ? imagesCount + 1
+                        : 5, //limit images insertion to 5
+                    itemBuilder: (_, int index) {
+                      if (index == imagesCount) {
+                        return GestureDetector(
+                          onTap: () {
+                            if (Platform.isAndroid) {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (_) =>
+                                    ImageSourceModal(onImageSelected),
+                              );
+                            } else {
+                              showCupertinoModalPopup(
+                                context: context,
+                                builder: (_) =>
+                                    ImageSourceModal(onImageSelected),
+                              );
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                            child: CircleAvatar(
+                              radius: 44,
+                              backgroundColor: Colors.grey[300],
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.white,
+                                    size: 40,
+                                  ),
+                                  Container(
+                                    width: 20,
+                                    height: 20,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  )
+                                ],
                               ),
-                              Container(
-                                width: 20,
-                                height: 20,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    return GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) => ImageDialog(
-                            image: createStore.images[index],
-                            onDelete: () => createStore.images.removeAt(index),
+                            ),
                           ),
                         );
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(
-                          8,
-                          8,
-                          index == 4 ? 8 : 0,
-                          8,
-                        ),
-                        child: CircleAvatar(
-                          radius: 44,
-                          backgroundColor: Colors.grey[300],
-                          backgroundImage: FileImage(createStore.images[index]),
+                      } else {
+                        return GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (_) => ImageDialog(
+                                image: createStore.images[index],
+                                onDelete: () =>
+                                    createStore.images.removeAt(index),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              8,
+                              8,
+                              index == 4 ? 8 : 0,
+                              8,
+                            ),
+                            child: CircleAvatar(
+                              radius: 44,
+                              backgroundColor: Colors.grey[300],
+                              backgroundImage:
+                                  FileImage(createStore.images[index]),
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+                if (createStore.imagesError != null)
+                  Positioned(
+                    right: 0,
+                    child: Container(
+                      width: 153,
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Text(
+                        createStore.imagesError!,
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: .15,
                         ),
                       ),
-                    );
-                  }
-                },
-              );
-            },
-          )),
-    );
+                    ),
+                  )
+              ],
+            );
+          },
+        ));
   }
 }

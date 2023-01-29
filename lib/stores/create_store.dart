@@ -23,4 +23,14 @@ abstract class _CreateStoreBase with Store {
 
   @action
   void setCategory(Category value) => category = value;
+
+  @computed
+  bool get imagesValid => images.isNotEmpty;
+  String? get imagesError {
+    if (imagesValid) {
+      return null;
+    } else {
+      return 'Insira imagens';
+    }
+  }
 }
