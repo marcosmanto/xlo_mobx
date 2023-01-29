@@ -35,105 +35,111 @@ class CreateScreen extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: 32),
           elevation: 4,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 5),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ImagesField(createStore),
-                AdFormField(
-                  labelText: 'Título',
-                  isRequired: true,
-                  decreaseWidth: 12,
-                ),
-                AdFormField(
-                  labelText: 'Descrição',
-                  isRequired: true,
-                  decreaseWidth: 12,
-                  expandable: true,
-                  maxHeight: 149,
-                ),
-                CategoryField(createStore),
-                Observer(builder: (_) {
-                  return AdFormField(
-                    onChanged: cepStore.setCep,
-                    labelText: 'CEP',
-                    isRequired: true,
-                    decreaseWidth: 12,
-                    expandable: false,
-                    maxHeight: 149,
-                    maxLength: 10,
-                    keyboardType: TextInputType.numberWithOptions(),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      CepInputFormatter(),
-                    ],
-                    child: () {
-                      if (cepStore.address == null &&
-                          cepStore.error == null &&
-                          !cepStore.loading) {
-                        return Container();
-                      } else if (cepStore.address == null &&
-                          cepStore.error == null) {
-                        return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 50),
-                          child: LinearProgressIndicator(),
-                        );
-                      } else if (cepStore.error != null) {
-                        return MessageBox(
-                          message: cepStore.error,
-                        );
-                      } else {
-                        final a = cepStore.address;
-                        return Transform.translate(
-                          offset: Offset(0, -20),
-                          child: MessageBox(
-                            message:
-                                '${a!.district}, ${a.city.name}/${a.uf.initials}',
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            iconSize: 20,
-                            icon: Icons.location_pin,
-                            isError: false,
-                            borderRadius: 32,
-                            fontWeight: FontWeight.bold,
-                            margin: const EdgeInsets.only(left: 10),
-                            padding: EdgeInsets.zero,
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 5),
+              child: Observer(
+                builder: (_) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ImagesField(createStore),
+                      AdFormField(
+                        onChanged: createStore.setTitle,
+                        labelText: 'Título',
+                        isRequired: true,
+                        decreaseWidth: 12,
+                        errorText: createStore.titleError,
+                      ),
+                      AdFormField(
+                        onChanged: createStore.setDescription,
+                        labelText: 'Descrição',
+                        isRequired: true,
+                        decreaseWidth: 12,
+                        expandable: true,
+                        maxHeight: 149,
+                        errorText: createStore.descriptionError,
+                      ),
+                      CategoryField(createStore),
+                      AdFormField(
+                        onChanged: cepStore.setCep,
+                        labelText: 'CEP',
+                        isRequired: true,
+                        decreaseWidth: 12,
+                        expandable: false,
+                        maxHeight: 149,
+                        maxLength: 10,
+                        keyboardType: TextInputType.numberWithOptions(),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          CepInputFormatter(),
+                        ],
+                        child: () {
+                          if (cepStore.address == null &&
+                              cepStore.error == null &&
+                              !cepStore.loading) {
+                            return Container();
+                          } else if (cepStore.address == null &&
+                              cepStore.error == null) {
+                            return Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 50),
+                              child: LinearProgressIndicator(),
+                            );
+                          } else if (cepStore.error != null) {
+                            return MessageBox(
+                              message: cepStore.error,
+                            );
+                          } else {
+                            final a = cepStore.address;
+                            return Transform.translate(
+                              offset: Offset(0, -20),
+                              child: MessageBox(
+                                message:
+                                    '${a!.district}, ${a.city.name}/${a.uf.initials}',
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
+                                iconSize: 20,
+                                icon: Icons.location_pin,
+                                isError: false,
+                                borderRadius: 32,
+                                fontWeight: FontWeight.bold,
+                                margin: const EdgeInsets.only(left: 10),
+                                padding: EdgeInsets.zero,
+                              ),
+                            );
+                          }
+                        }(),
+                      ),
+                      AdFormField(
+                        labelText: 'Preço',
+                        isRequired: true,
+                        decreaseWidth: 12,
+                        prefixText: 'R\$ ',
+                        keyboardType: TextInputType.numberWithOptions(),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          CentavosInputFormatter()
+                        ],
+                      ),
+                      HidePhoneField(createStore),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: false
+                              ? Colors.transparent
+                              : Theme.of(context).colorScheme.primary,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                        );
-                      }
-                    }(),
+                        ),
+                        child: Text('ENVIAR'),
+                      )
+                    ],
                   );
-                }),
-                AdFormField(
-                  labelText: 'Preço',
-                  isRequired: true,
-                  decreaseWidth: 12,
-                  prefixText: 'R\$ ',
-                  keyboardType: TextInputType.numberWithOptions(),
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    CentavosInputFormatter()
-                  ],
-                ),
-                HidePhoneField(createStore),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: false
-                        ? Colors.transparent
-                        : Theme.of(context).colorScheme.primary,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: Text('ENVIAR'),
-                )
-              ],
-            ),
-          ),
+                },
+              )),
         ),
       ),
     );
@@ -156,6 +162,7 @@ class AdFormField extends StatelessWidget {
     this.maxLength,
     this.onChanged,
     this.child,
+    this.errorText,
   });
 
   final bool expandable;
@@ -171,6 +178,7 @@ class AdFormField extends StatelessWidget {
   final int? maxLength;
   final void Function(String)? onChanged;
   final Widget? child;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -185,6 +193,13 @@ class AdFormField extends StatelessWidget {
             maxLength: maxLength,
             maxLines: expandable ? null : 1,
             decoration: InputDecoration(
+              errorText: errorText,
+              errorStyle: TextStyle(
+                color: Colors.red,
+                fontSize: 15.68,
+                fontWeight: FontWeight.bold,
+                letterSpacing: .15,
+              ),
               labelText: '$labelText${isRequired ? ' *' : ''}',
               labelStyle: TextStyle(
                 color: Colors.grey,
