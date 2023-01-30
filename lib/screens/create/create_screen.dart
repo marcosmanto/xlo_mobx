@@ -12,12 +12,23 @@ import 'components/category_field.dart';
 import 'components/hide_phone_field.dart';
 import 'components/images_field.dart';
 
-class CreateScreen extends StatelessWidget {
+class CreateScreen extends StatefulWidget {
   CreateScreen({super.key});
 
+  @override
+  State<CreateScreen> createState() => _CreateScreenState();
+}
+
+class _CreateScreenState extends State<CreateScreen> {
   //final CreateStore createStore = CreateStore();
   final CreateStore createStore = GetIt.I<CreateStore>();
-  final CepStore cepStore = CepStore();
+  late final CepStore cepStore;
+
+  @override
+  void initState() {
+    super.initState();
+    cepStore = createStore.cepStore;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +79,7 @@ class CreateScreen extends StatelessWidget {
                         expandable: false,
                         maxHeight: 149,
                         maxLength: 10,
+                        errorText: createStore.addressError,
                         keyboardType: TextInputType.numberWithOptions(),
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
@@ -111,6 +123,8 @@ class CreateScreen extends StatelessWidget {
                         }(),
                       ),
                       AdFormField(
+                        onChanged: createStore.setPrice,
+                        errorText: createStore.priceError,
                         labelText: 'Preço',
                         isRequired: true,
                         decreaseWidth: 12,

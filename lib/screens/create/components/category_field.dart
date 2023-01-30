@@ -93,7 +93,19 @@ class CategoryField extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),*/
-                    )
+                    ),
+              if (createStore.categoryError != null)
+                Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      createStore.categoryError!,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 15.68,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: .15,
+                      ),
+                    ))
             ],
           ),
         ),

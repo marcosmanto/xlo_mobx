@@ -9,6 +9,26 @@ part of 'create_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$CreateStore on _CreateStoreBase, Store {
+  Computed<double?>? _$priceComputed;
+
+  @override
+  double? get price => (_$priceComputed ??=
+          Computed<double?>(() => super.price, name: '_CreateStoreBase.price'))
+      .value;
+  Computed<Address?>? _$addressComputed;
+
+  @override
+  Address? get address =>
+      (_$addressComputed ??= Computed<Address?>(() => super.address,
+              name: '_CreateStoreBase.address'))
+          .value;
+  Computed<bool>? _$categoryValidComputed;
+
+  @override
+  bool get categoryValid =>
+      (_$categoryValidComputed ??= Computed<bool>(() => super.categoryValid,
+              name: '_CreateStoreBase.categoryValid'))
+          .value;
   Computed<bool>? _$descriptionValidComputed;
 
   @override
@@ -79,6 +99,22 @@ mixin _$CreateStore on _CreateStoreBase, Store {
     });
   }
 
+  late final _$priceTextAtom =
+      Atom(name: '_CreateStoreBase.priceText', context: context);
+
+  @override
+  String? get priceText {
+    _$priceTextAtom.reportRead();
+    return super.priceText;
+  }
+
+  @override
+  set priceText(String? value) {
+    _$priceTextAtom.reportWrite(value, super.priceText, () {
+      super.priceText = value;
+    });
+  }
+
   late final _$titleAtom =
       Atom(name: '_CreateStoreBase.title', context: context);
 
@@ -115,6 +151,17 @@ mixin _$CreateStore on _CreateStoreBase, Store {
         name: '_CreateStoreBase.setHidePhone');
     try {
       return super.setHidePhone(value);
+    } finally {
+      _$_CreateStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setPrice(String? value) {
+    final _$actionInfo = _$_CreateStoreBaseActionController.startAction(
+        name: '_CreateStoreBase.setPrice');
+    try {
+      return super.setPrice(value);
     } finally {
       _$_CreateStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -159,7 +206,11 @@ mixin _$CreateStore on _CreateStoreBase, Store {
 description: ${description},
 category: ${category},
 hidePhone: ${hidePhone},
+priceText: ${priceText},
 title: ${title},
+price: ${price},
+address: ${address},
+categoryValid: ${categoryValid},
 descriptionValid: ${descriptionValid},
 titleValid: ${titleValid},
 imagesValid: ${imagesValid}
