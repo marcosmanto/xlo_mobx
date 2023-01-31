@@ -19,9 +19,13 @@ class HidePhoneField extends StatelessWidget {
                 fillColor: MaterialStateProperty.resolveWith<Color>(
                     (Set<MaterialState> states) {
                   if (states.contains(MaterialState.disabled)) {
-                    return Colors.grey;
+                    return createStore.loading
+                        ? Colors.grey.shade400
+                        : Colors.grey;
                   }
-                  return Theme.of(context).colorScheme.primary;
+                  return createStore.loading
+                      ? Colors.grey.shade400
+                      : Theme.of(context).colorScheme.primary;
                 }),
                 value: createStore.hidePhone,
                 onChanged: (value) => createStore.setHidePhone(value ?? false),
@@ -32,8 +36,12 @@ class HidePhoneField extends StatelessWidget {
                       createStore.setHidePhone(!createStore.hidePhone),
                   style: TextButton.styleFrom(
                     foregroundColor: createStore.hidePhone
-                        ? Theme.of(context).colorScheme.primary
-                        : Colors.grey,
+                        ? createStore.loading
+                            ? Colors.grey.shade400
+                            : Theme.of(context).colorScheme.primary
+                        : createStore.loading
+                            ? Colors.grey.shade400
+                            : Colors.grey,
                   ),
                   child: Text('Ocultar o meu telefone neste anúncio'),
                 ),

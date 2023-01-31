@@ -38,20 +38,14 @@ class CategoryField extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Categoria *',
-                    style: createStore.category == null
-                        ? TextStyle(
-                            color: Colors.grey,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          )
-                        : TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                  ),
+                  Text('Categoria *',
+                      style: TextStyle(
+                        color: createStore.loading
+                            ? Colors.grey[400]
+                            : Colors.grey,
+                        fontSize: createStore.category == null ? 18 : 14,
+                        fontWeight: FontWeight.bold,
+                      )),
                   Icon(
                     Icons.keyboard_arrow_down,
                     color: Colors.grey,
@@ -75,7 +69,9 @@ class CategoryField extends StatelessWidget {
                         color: Colors.white,
                         size: 25,
                       ),
-                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      backgroundColor: createStore.loading
+                          ? Colors.grey[400]
+                          : Theme.of(context).colorScheme.primary,
                       label: Text(
                         createStore.category!.description,
                         style: TextStyle(

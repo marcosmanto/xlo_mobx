@@ -53,9 +53,9 @@ abstract class _CreateStoreBase with Store {
       priceValid;
 
   @computed
-  get sendPressed => formValid ? _send : null;
+  get sendPressed => !loading && formValid ? _send : null;
 
-  void _send() {
+  Future _send() async {
     loading = true;
     final ad = Ad(
       title: title,
@@ -68,7 +68,7 @@ abstract class _CreateStoreBase with Store {
       user: GetIt.I<UserManagerStore>().user,
     );
 
-    AdRepository().save(ad);
+    await AdRepository().save(ad);
     loading = false;
   }
 

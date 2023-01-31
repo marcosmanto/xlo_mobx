@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:xlo_mobx/components/message_box.dart';
+import 'package:xlo_mobx/main.dart';
 import 'package:xlo_mobx/stores/cep_store.dart';
 import '../../components/custom_drawer/custom_drawer.dart';
 import '../../stores/create_store.dart';
@@ -39,29 +40,42 @@ class _CreateScreenState extends State<CreateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: CustomDrawer(),
-      appBar: AppBar(
-        title: const Text('Criar anúncio'),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          margin: EdgeInsets.symmetric(horizontal: 32),
-          elevation: 4,
-          child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 5),
-              child: Observer(
-                builder: (_) {
-                  return Column(
+    return Observer(
+      builder: (_) {
+        return WillPopScope(
+          onWillPop: createStore.loading
+              ? () async {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        'Por favor aguarde o processo de criação do anúncio terminar'),
+                  ));
+                  return false;
+                }
+              : null,
+          child: Scaffold(
+            drawer: CustomDrawer(),
+            appBar: AppBar(
+              title:
+                  createStore.loading ? Text('Aguarde') : Text('Criar anúncio'),
+              centerTitle: true,
+            ),
+            body: SingleChildScrollView(
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24)),
+                margin: EdgeInsets.symmetric(horizontal: 32),
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 5),
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       ImagesField(createStore),
                       AdFormField(
+                        enabled: !createStore.loading,
                         onChanged: createStore.setTitle,
                         labelText: 'Título',
                         isRequired: true,
@@ -69,6 +83,7 @@ class _CreateScreenState extends State<CreateScreen> {
                         errorText: createStore.titleError,
                       ),
                       AdFormField(
+                        enabled: !createStore.loading,
                         onChanged: createStore.setDescription,
                         labelText: 'Descrição',
                         isRequired: true,
@@ -79,6 +94,7 @@ class _CreateScreenState extends State<CreateScreen> {
                       ),
                       CategoryField(createStore),
                       AdFormField(
+                        enabled: !createStore.loading,
                         onChanged: cepStore.setCep,
                         labelText: 'CEP',
                         isRequired: true,
@@ -115,8 +131,9 @@ class _CreateScreenState extends State<CreateScreen> {
                               child: MessageBox(
                                 message:
                                     '${a!.district}, ${a.city.name}/${a.uf.initials}',
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
+                                backgroundColor: createStore.loading
+                                    ? Colors.grey.shade400
+                                    : Theme.of(context).colorScheme.primary,
                                 iconSize: 20,
                                 icon: Icons.location_pin,
                                 isError: false,
@@ -130,6 +147,7 @@ class _CreateScreenState extends State<CreateScreen> {
                         }(),
                       ),
                       AdFormField(
+                        enabled: !createStore.loading,
                         onChanged: createStore.setPrice,
                         errorText: createStore.priceError,
                         labelText: 'Preço',
@@ -143,29 +161,56 @@ class _CreateScreenState extends State<CreateScreen> {
                         ],
                       ),
                       HidePhoneField(createStore),
-                      GestureDetector(
-                        onTap: createStore.invalidSendPressed,
-                        child: ElevatedButton(
-                          onPressed: createStore.sendPressed,
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: false
-                                ? Colors.transparent
-                                : Theme.of(context).colorScheme.primary,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          child: Text('ENVIAR'),
+                      LayoutBuilder(
+                        builder: (context, constraints) => Container(
+                          alignment: Alignment.center,
+                          height: 40,
+                          margin: EdgeInsets.only(top: 8, bottom: 4),
+                          child: createStore.loading
+                              ? Transform.translate(
+                                  offset: Offset(0, -9),
+                                  child: SizedBox(
+                                    width: 25,
+                                    height: 25,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: gCircularProgressStrokeWidh,
+                                    ),
+                                  ),
+                                )
+                              : ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                      minWidth: constraints.maxWidth),
+                                  child: GestureDetector(
+                                    onTap: createStore.invalidSendPressed,
+                                    child: ElevatedButton(
+                                      onPressed: createStore.sendPressed,
+                                      style: ElevatedButton.styleFrom(
+                                        foregroundColor: Colors.white,
+                                        backgroundColor: createStore.loading
+                                            ? Colors.transparent
+                                            : Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                      ),
+                                      child: Text('ENVIAR'),
+                                    ),
+                                  ),
+                                ),
                         ),
-                      )
+                      ),
                     ],
-                  );
-                },
-              )),
-        ),
-      ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -208,6 +253,7 @@ class AdFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CreateStore createStore = GetIt.I<CreateStore>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -229,7 +275,7 @@ class AdFormField extends StatelessWidget {
               ),
               labelText: '$labelText${isRequired ? ' *' : ''}',
               labelStyle: TextStyle(
-                color: Colors.grey,
+                color: createStore.loading ? Colors.grey[400] : Colors.grey,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -239,13 +285,16 @@ class AdFormField extends StatelessWidget {
               prefixText: prefixText,
               prefixStyle: TextStyle(
                 fontSize: 16,
-                color: Theme.of(context).colorScheme.primary,
+                color: createStore.loading
+                    ? Colors.grey[400]
+                    : Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.w600,
               ),
             ),
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w300,
+              color: createStore.loading ? Colors.grey[400] : null,
             ),
             inputFormatters: inputFormatters,
             keyboardType: keyboardType,

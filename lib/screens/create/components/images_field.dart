@@ -138,7 +138,16 @@ class ImagesField extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                if (createStore.loading)
+                  Positioned(
+                    top: 0,
+                    child: Container(
+                      width: 600,
+                      height: 120,
+                      color: Colors.grey.withOpacity(0.25),
+                    ),
+                  ),
               ],
             );
           },
