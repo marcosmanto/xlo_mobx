@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 import 'package:xlo_mobx/components/message_box.dart';
 import 'package:xlo_mobx/stores/cep_store.dart';
 import '../../components/custom_drawer/custom_drawer.dart';
@@ -28,6 +29,12 @@ class _CreateScreenState extends State<CreateScreen> {
   void initState() {
     super.initState();
     cepStore = createStore.cepStore;
+    reaction((_) => createStore.loading, (loading) {
+      if (loading == false) {
+        //Hide immediately snackbar if there is one
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      }
+    });
   }
 
   @override
@@ -167,6 +174,7 @@ class AdFormField extends StatelessWidget {
   const AdFormField({
     super.key,
     required this.labelText,
+    this.enabled = true,
     this.expandable = false,
     this.maxHeight = 100,
     this.minHeight = 60,
@@ -182,6 +190,7 @@ class AdFormField extends StatelessWidget {
     this.errorText,
   });
 
+  final bool enabled;
   final bool expandable;
   final bool isRequired;
   final String labelText;
@@ -206,6 +215,7 @@ class AdFormField extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: decreaseWidth),
           margin: EdgeInsets.only(bottom: marginBottom),
           child: TextFormField(
+            enabled: enabled,
             onChanged: onChanged,
             maxLength: maxLength,
             maxLines: expandable ? null : 1,

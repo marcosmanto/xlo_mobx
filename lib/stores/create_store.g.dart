@@ -65,6 +65,22 @@ mixin _$CreateStore on _CreateStoreBase, Store {
               name: '_CreateStoreBase.imagesValid'))
           .value;
 
+  late final _$loadingAtom =
+      Atom(name: '_CreateStoreBase.loading', context: context);
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
   late final _$descriptionAtom =
       Atom(name: '_CreateStoreBase.description', context: context);
 
@@ -244,6 +260,7 @@ mixin _$CreateStore on _CreateStoreBase, Store {
   @override
   String toString() {
     return '''
+loading: ${loading},
 description: ${description},
 category: ${category},
 showErrors: ${showErrors},

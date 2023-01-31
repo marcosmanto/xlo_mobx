@@ -1,9 +1,13 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:xlo_mobx/models/ad.dart';
 import 'package:xlo_mobx/models/address.dart';
 import 'package:xlo_mobx/models/category.dart';
+import 'package:xlo_mobx/repositories/ad_repository.dart';
 import 'package:xlo_mobx/stores/cep_store.dart';
+import 'package:xlo_mobx/stores/user_manager_store.dart';
 
 part 'create_store.g.dart';
 
@@ -11,6 +15,9 @@ class CreateStore = _CreateStoreBase with _$CreateStore;
 
 abstract class _CreateStoreBase with Store {
   ObservableList images = ObservableList();
+
+  @observable
+  bool loading = false;
 
   @observable
   String? description;
@@ -48,7 +55,22 @@ abstract class _CreateStoreBase with Store {
   @computed
   get sendPressed => formValid ? _send : null;
 
-  void _send() {}
+  void _send() {
+    loading = true;
+    final ad = Ad(
+      title: title,
+      description: description!,
+      category: category!,
+      price: price!,
+      hidePhone: hidePhone,
+      images: images,
+      address: address!,
+      user: GetIt.I<UserManagerStore>().user,
+    );
+
+    AdRepository().save(ad);
+    loading = false;
+  }
 
   @computed
   double? get price {
