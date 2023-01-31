@@ -36,13 +36,13 @@ class AdRepository {
       adObject.set<ParseUser>(keyAdOwner, parseUser);
       adObject.set<ParseObject>(keyAdCategory,
           ParseObject(keyCategoryTable)..set(keyParseID, ad.category.id));
-      //final response = await adObject.save();
-      return Future.error('Erro');
-      /*if (response.success) {
+      final response = await adObject.save();
+
+      if (response.success) {
         return response.result;
       } else {
         return Future.error(ParseErrors.getDescription(response.error!.code));
-      }*/
+      }
     } catch (e) {
       return Future.error('Falha ao salvar o anúncio.');
     }
