@@ -9,6 +9,20 @@ part of 'create_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$CreateStore on _CreateStoreBase, Store {
+  Computed<bool>? _$formValidComputed;
+
+  @override
+  bool get formValid =>
+      (_$formValidComputed ??= Computed<bool>(() => super.formValid,
+              name: '_CreateStoreBase.formValid'))
+          .value;
+  Computed<dynamic>? _$sendPressedComputed;
+
+  @override
+  dynamic get sendPressed =>
+      (_$sendPressedComputed ??= Computed<dynamic>(() => super.sendPressed,
+              name: '_CreateStoreBase.sendPressed'))
+          .value;
   Computed<double?>? _$priceComputed;
 
   @override
@@ -83,6 +97,22 @@ mixin _$CreateStore on _CreateStoreBase, Store {
     });
   }
 
+  late final _$showErrorsAtom =
+      Atom(name: '_CreateStoreBase.showErrors', context: context);
+
+  @override
+  bool get showErrors {
+    _$showErrorsAtom.reportRead();
+    return super.showErrors;
+  }
+
+  @override
+  set showErrors(bool value) {
+    _$showErrorsAtom.reportWrite(value, super.showErrors, () {
+      super.showErrors = value;
+    });
+  }
+
   late final _$hidePhoneAtom =
       Atom(name: '_CreateStoreBase.hidePhone', context: context);
 
@@ -140,6 +170,17 @@ mixin _$CreateStore on _CreateStoreBase, Store {
         name: '_CreateStoreBase.setDescription');
     try {
       return super.setDescription(value);
+    } finally {
+      _$_CreateStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void invalidSendPressed() {
+    final _$actionInfo = _$_CreateStoreBaseActionController.startAction(
+        name: '_CreateStoreBase.invalidSendPressed');
+    try {
+      return super.invalidSendPressed();
     } finally {
       _$_CreateStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -205,9 +246,12 @@ mixin _$CreateStore on _CreateStoreBase, Store {
     return '''
 description: ${description},
 category: ${category},
+showErrors: ${showErrors},
 hidePhone: ${hidePhone},
 priceText: ${priceText},
 title: ${title},
+formValid: ${formValid},
+sendPressed: ${sendPressed},
 price: ${price},
 address: ${address},
 categoryValid: ${categoryValid},

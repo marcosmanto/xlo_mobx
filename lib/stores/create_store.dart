@@ -21,6 +21,12 @@ abstract class _CreateStoreBase with Store {
   Category? category;
 
   @observable
+  bool showErrors = false;
+
+  @action
+  void invalidSendPressed() => showErrors = true;
+
+  @observable
   bool hidePhone = false;
   @action
   void setHidePhone(bool value) => hidePhone = value;
@@ -29,6 +35,20 @@ abstract class _CreateStoreBase with Store {
   String? priceText;
   @action
   setPrice(String? value) => priceText = value;
+
+  @computed
+  bool get formValid =>
+      imagesValid &&
+      titleValid &&
+      descriptionValid &&
+      categoryValid &&
+      addressValid &&
+      priceValid;
+
+  @computed
+  get sendPressed => formValid ? _send : null;
+
+  void _send() {}
 
   @computed
   double? get price {
@@ -41,7 +61,7 @@ abstract class _CreateStoreBase with Store {
 
   bool get priceValid => price != null && price! <= 9999999;
   String? get priceError {
-    if (priceValid) {
+    if (!showErrors || priceValid) {
       return null;
     } else if (priceText != null && priceText!.isEmpty) {
       return 'Campo obrigatório';
@@ -67,7 +87,7 @@ abstract class _CreateStoreBase with Store {
   Address? get address => cepStore.address;
   bool get addressValid => address != null;
   String? get addressError {
-    if (addressValid) {
+    if (!showErrors || addressValid) {
       return null;
     } else {
       return 'Campo obrigatório';
@@ -77,7 +97,7 @@ abstract class _CreateStoreBase with Store {
   @computed
   bool get categoryValid => category != null;
   String? get categoryError {
-    if (categoryValid) {
+    if (!showErrors || categoryValid) {
       return null;
     } else {
       return 'Campo obrigatório';
@@ -87,7 +107,7 @@ abstract class _CreateStoreBase with Store {
   @computed
   bool get descriptionValid => description != null && description!.length >= 15;
   String? get descriptionError {
-    if (descriptionValid) {
+    if (!showErrors || descriptionValid) {
       return null;
     } else if (description == null || description!.isEmpty) {
       return 'Campo obrigatório';
@@ -99,7 +119,7 @@ abstract class _CreateStoreBase with Store {
   @computed
   bool get titleValid => title.length >= 6;
   String? get titleError {
-    if (titleValid) {
+    if (!showErrors || titleValid) {
       return null;
     } else if (title.isEmpty) {
       return 'Campo obrigatório';
@@ -111,7 +131,7 @@ abstract class _CreateStoreBase with Store {
   @computed
   bool get imagesValid => images.isNotEmpty;
   String? get imagesError {
-    if (imagesValid) {
+    if (!showErrors || imagesValid) {
       return null;
     } else {
       return 'Insira imagens';

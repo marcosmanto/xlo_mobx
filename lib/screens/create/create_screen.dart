@@ -136,19 +136,22 @@ class _CreateScreenState extends State<CreateScreen> {
                         ],
                       ),
                       HidePhoneField(createStore),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: false
-                              ? Colors.transparent
-                              : Theme.of(context).colorScheme.primary,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                      GestureDetector(
+                        onTap: createStore.invalidSendPressed,
+                        child: ElevatedButton(
+                          onPressed: createStore.sendPressed,
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: false
+                                ? Colors.transparent
+                                : Theme.of(context).colorScheme.primary,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                           ),
+                          child: Text('ENVIAR'),
                         ),
-                        child: Text('ENVIAR'),
                       )
                     ],
                   );
