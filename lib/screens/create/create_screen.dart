@@ -25,6 +25,7 @@ class _CreateScreenState extends State<CreateScreen> {
   //final CreateStore createStore = CreateStore();
   final CreateStore createStore = GetIt.I<CreateStore>();
   late final CepStore cepStore;
+  bool formIsValid = false;
 
   @override
   void initState() {
@@ -35,6 +36,9 @@ class _CreateScreenState extends State<CreateScreen> {
         //Hide immediately snackbar if there is one
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
       }
+    });
+    reaction((_) => createStore.formValid, (formValid) {
+      setState(() {});
     });
   }
 
@@ -161,6 +165,10 @@ class _CreateScreenState extends State<CreateScreen> {
                         ],
                       ),
                       HidePhoneField(createStore),
+                      if (createStore.error != null)
+                        MessageBox(
+                          message: createStore.error,
+                        ),
                       LayoutBuilder(
                         builder: (context, constraints) => Container(
                           alignment: Alignment.center,

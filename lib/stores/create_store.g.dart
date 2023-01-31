@@ -29,6 +29,20 @@ mixin _$CreateStore on _CreateStoreBase, Store {
   double? get price => (_$priceComputed ??=
           Computed<double?>(() => super.price, name: '_CreateStoreBase.price'))
       .value;
+  Computed<bool>? _$titleValidComputed;
+
+  @override
+  bool get titleValid =>
+      (_$titleValidComputed ??= Computed<bool>(() => super.titleValid,
+              name: '_CreateStoreBase.titleValid'))
+          .value;
+  Computed<String?>? _$titleErrorComputed;
+
+  @override
+  String? get titleError =>
+      (_$titleErrorComputed ??= Computed<String?>(() => super.titleError,
+              name: '_CreateStoreBase.titleError'))
+          .value;
   Computed<Address?>? _$addressComputed;
 
   @override
@@ -50,13 +64,6 @@ mixin _$CreateStore on _CreateStoreBase, Store {
           () => super.descriptionValid,
           name: '_CreateStoreBase.descriptionValid'))
       .value;
-  Computed<bool>? _$titleValidComputed;
-
-  @override
-  bool get titleValid =>
-      (_$titleValidComputed ??= Computed<bool>(() => super.titleValid,
-              name: '_CreateStoreBase.titleValid'))
-          .value;
   Computed<bool>? _$imagesValidComputed;
 
   @override
@@ -161,6 +168,22 @@ mixin _$CreateStore on _CreateStoreBase, Store {
     });
   }
 
+  late final _$errorAtom =
+      Atom(name: '_CreateStoreBase.error', context: context);
+
+  @override
+  String? get error {
+    _$errorAtom.reportRead();
+    return super.error;
+  }
+
+  @override
+  set error(String? value) {
+    _$errorAtom.reportWrite(value, super.error, () {
+      super.error = value;
+    });
+  }
+
   late final _$titleAtom =
       Atom(name: '_CreateStoreBase.title', context: context);
 
@@ -175,6 +198,14 @@ mixin _$CreateStore on _CreateStoreBase, Store {
     _$titleAtom.reportWrite(value, super.title, () {
       super.title = value;
     });
+  }
+
+  late final _$_sendAsyncAction =
+      AsyncAction('_CreateStoreBase._send', context: context);
+
+  @override
+  Future<dynamic> _send() {
+    return _$_sendAsyncAction.run(() => super._send());
   }
 
   late final _$_CreateStoreBaseActionController =
@@ -266,14 +297,16 @@ category: ${category},
 showErrors: ${showErrors},
 hidePhone: ${hidePhone},
 priceText: ${priceText},
+error: ${error},
 title: ${title},
 formValid: ${formValid},
 sendPressed: ${sendPressed},
 price: ${price},
+titleValid: ${titleValid},
+titleError: ${titleError},
 address: ${address},
 categoryValid: ${categoryValid},
 descriptionValid: ${descriptionValid},
-titleValid: ${titleValid},
 imagesValid: ${imagesValid}
     ''';
   }

@@ -55,6 +55,10 @@ abstract class _CreateStoreBase with Store {
   @computed
   get sendPressed => !loading && formValid ? _send : null;
 
+  @observable
+  String? error;
+
+  @action
   Future _send() async {
     loading = true;
     final ad = Ad(
@@ -68,7 +72,12 @@ abstract class _CreateStoreBase with Store {
       user: GetIt.I<UserManagerStore>().user,
     );
 
-    await AdRepository().save(ad);
+    try {
+      final response = await AdRepository().save(ad);
+      error = null;
+    } catch (e) {
+      error = e.toString();
+    }
     loading = false;
   }
 
@@ -96,6 +105,19 @@ abstract class _CreateStoreBase with Store {
   String title = '';
   @action
   void setTitle(String value) => title = value;
+
+  @computed
+  bool get titleValid => title.length >= 6;
+  @computed
+  String? get titleError {
+    if (!showErrors || titleValid) {
+      return null;
+    } else if (title.isEmpty) {
+      return 'Campo obrigatório';
+    } else {
+      return 'Título muito curto';
+    }
+  }
 
   @action
   void clearCategory() => category = null;
@@ -135,18 +157,6 @@ abstract class _CreateStoreBase with Store {
       return 'Campo obrigatório';
     } else {
       return 'Descrição muito curta';
-    }
-  }
-
-  @computed
-  bool get titleValid => title.length >= 6;
-  String? get titleError {
-    if (!showErrors || titleValid) {
-      return null;
-    } else if (title.isEmpty) {
-      return 'Campo obrigatório';
-    } else {
-      return 'Título muito curto';
     }
   }
 
