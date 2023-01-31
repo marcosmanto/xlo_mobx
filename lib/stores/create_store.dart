@@ -60,6 +60,7 @@ abstract class _CreateStoreBase with Store {
 
   @action
   Future _send() async {
+    error = null;
     loading = true;
     final ad = Ad(
       title: title,
