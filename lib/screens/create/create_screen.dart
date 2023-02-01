@@ -7,6 +7,7 @@ import 'package:mobx/mobx.dart';
 import 'package:xlo_mobx/components/message_box.dart';
 import 'package:xlo_mobx/main.dart';
 import 'package:xlo_mobx/stores/cep_store.dart';
+import 'package:xlo_mobx/stores/page_store.dart';
 import '../../components/custom_drawer/custom_drawer.dart';
 import '../../stores/create_store.dart';
 
@@ -26,20 +27,35 @@ class _CreateScreenState extends State<CreateScreen> {
   final CreateStore createStore = GetIt.I<CreateStore>();
   late final CepStore cepStore;
   bool formIsValid = false;
+  late final Dispose _disposerLoading;
+  late final ReactionDisposer _disposerFormValid;
 
   @override
   void initState() {
     super.initState();
     cepStore = createStore.cepStore;
-    reaction((_) => createStore.loading, (loading) {
+    _disposerLoading = reaction((_) => createStore.loading, (loading) {
       if (loading == false) {
         //Hide immediately snackbar if there is one
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
       }
     });
-    reaction((_) => createStore.formValid, (formValid) {
+
+    _disposerFormValid = reaction((_) => createStore.formValid, (formValid) {
       setState(() {});
     });
+
+    // when run only once and has auto dispose
+    when((_) => createStore.savedAd, () {
+      GetIt.I<PageStore>().setPage(0);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _disposerLoading();
+    _disposerFormValid();
   }
 
   @override

@@ -184,6 +184,22 @@ mixin _$CreateStore on _CreateStoreBase, Store {
     });
   }
 
+  late final _$savedAdAtom =
+      Atom(name: '_CreateStoreBase.savedAd', context: context);
+
+  @override
+  bool get savedAd {
+    _$savedAdAtom.reportRead();
+    return super.savedAd;
+  }
+
+  @override
+  set savedAd(bool value) {
+    _$savedAdAtom.reportWrite(value, super.savedAd, () {
+      super.savedAd = value;
+    });
+  }
+
   late final _$titleAtom =
       Atom(name: '_CreateStoreBase.title', context: context);
 
@@ -298,6 +314,7 @@ showErrors: ${showErrors},
 hidePhone: ${hidePhone},
 priceText: ${priceText},
 error: ${error},
+savedAd: ${savedAd},
 title: ${title},
 formValid: ${formValid},
 sendPressed: ${sendPressed},
