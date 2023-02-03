@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:xlo_mobx/stores/home_store.dart';
 import '../../components/custom_drawer/custom_drawer.dart';
 import 'components/search_dialog.dart';
+import 'components/top_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -61,6 +62,9 @@ class HomeScreen extends StatelessWidget {
                   )
           ],
         ),
+        body: Column(children: [
+          TopBar(),
+        ]),
       );
     });
   }
