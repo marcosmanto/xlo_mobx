@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:xlo_mobx/screens/category/category_screen.dart';
 import 'package:xlo_mobx/stores/home_store.dart';
 
+import '../../filter/filter_screen.dart';
 import 'bar_button.dart';
 
 class TopBar extends StatelessWidget {
@@ -45,7 +46,10 @@ class TopBar extends StatelessWidget {
               ),
             ),
             BarButton(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => FilterScreen()));
+              },
               label: 'Filtros',
               decoration: BoxDecoration(
                 border: Border(
