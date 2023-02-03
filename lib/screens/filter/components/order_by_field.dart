@@ -1,24 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:xlo_mobx/screens/filter/components/section_title.dart';
+import 'package:xlo_mobx/stores/filter_store.dart';
 
 class OrderByField extends StatelessWidget {
-  const OrderByField({super.key});
+  const OrderByField({super.key, required this.store});
 
-  Widget buildOption(String title, {required BuildContext context}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 24,
-      ),
-      alignment: Alignment.center,
-      height: 45,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: Theme.of(context).colorScheme.primary,
-      ),
-      child: Text(
-        title,
-        style: TextStyle(
-          color: Colors.white,
+  final FilterStore store;
+
+  Widget buildOption(String title, OrderBy option,
+      {required BuildContext context}) {
+    return GestureDetector(
+      onTap: () {
+        store.setOrderBy(option);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+        ),
+        alignment: Alignment.center,
+        height: 45,
+        decoration: BoxDecoration(
+          border: Border.all(
+              color: store.orderBy == option
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.grey),
+          borderRadius: BorderRadius.circular(25),
+          color: store.orderBy == option
+              ? Theme.of(context).colorScheme.primary
+              : Colors.transparent,
+        ),
+        child: Text(
+          title,
+          style: TextStyle(
+            color: store.orderBy == option ? Colors.white : Colors.grey[600],
+          ),
         ),
       ),
     );
@@ -26,18 +42,20 @@ class OrderByField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SectionTitle(title: 'Ordernar por'),
-        Row(
-          children: [
-            buildOption('Data', context: context),
-            const SizedBox(width: 12),
-            buildOption('Preço', context: context),
-          ],
-        ),
-      ],
-    );
+    return Observer(builder: (_) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionTitle(title: 'Ordernar por'),
+          Row(
+            children: [
+              buildOption('Data', OrderBy.date, context: context),
+              const SizedBox(width: 12),
+              buildOption('Preço', OrderBy.price, context: context),
+            ],
+          ),
+        ],
+      );
+    });
   }
 }
