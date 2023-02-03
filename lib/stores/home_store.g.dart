@@ -25,8 +25,35 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  late final _$categoryAtom =
+      Atom(name: '_HomeStoreBase.category', context: context);
+
+  @override
+  Category? get category {
+    _$categoryAtom.reportRead();
+    return super.category;
+  }
+
+  @override
+  set category(Category? value) {
+    _$categoryAtom.reportWrite(value, super.category, () {
+      super.category = value;
+    });
+  }
+
   late final _$_HomeStoreBaseActionController =
       ActionController(name: '_HomeStoreBase', context: context);
+
+  @override
+  dynamic setCategory(Category? value) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.setCategory');
+    try {
+      return super.setCategory(value);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setSearch(String? value) {
@@ -42,7 +69,8 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   @override
   String toString() {
     return '''
-search: ${search}
+search: ${search},
+category: ${category}
     ''';
   }
 }
