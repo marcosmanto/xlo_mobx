@@ -192,6 +192,17 @@ mixin _$FilterStore on _FilterStoreBase, Store {
       ActionController(name: '_FilterStoreBase', context: context);
 
   @override
+  void setFilterApplied(bool value) {
+    final _$actionInfo = _$_FilterStoreBaseActionController.startAction(
+        name: '_FilterStoreBase.setFilterApplied');
+    try {
+      return super.setFilterApplied(value);
+    } finally {
+      _$_FilterStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void invalidSendPressed() {
     final _$actionInfo = _$_FilterStoreBaseActionController.startAction(
         name: '_FilterStoreBase.invalidSendPressed');

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:xlo_mobx/main.dart';
 import 'package:xlo_mobx/stores/filter_store.dart';
+import 'package:xlo_mobx/stores/home_store.dart';
 
 import 'components/order_by_field.dart';
 import 'components/price_range_field.dart';
@@ -16,7 +18,7 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  final FilterStore filterStore = FilterStore();
+  final FilterStore filterStore = GetIt.I<HomeStore>().clonedFilter;
   late final Dispose _disposerLoading;
   late final ReactionDisposer _disposerFormValid;
 
@@ -83,7 +85,6 @@ class _FilterScreenState extends State<FilterScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(filterStore.filterApplied.toString()),
                         OrderByField(
                           store: filterStore,
                           enabled: !filterStore.loading,

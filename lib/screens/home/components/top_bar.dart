@@ -47,6 +47,7 @@ class TopBar extends StatelessWidget {
             ),
             BarButton(
               onTap: () {
+                homeStore.filter.setFilterApplied(false);
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => FilterScreen()));
               },
