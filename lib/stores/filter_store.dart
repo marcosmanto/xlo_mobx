@@ -7,6 +7,9 @@ class FilterStore = _FilterStoreBase with _$FilterStore;
 
 enum OrderBy { date, price }
 
+const vendorTypeParticular = 1 << 0;
+const vendorTypeProfessional = 1 << 1;
+
 abstract class _FilterStoreBase with Store {
   @observable
   OrderBy orderBy = OrderBy.date;
@@ -29,4 +32,16 @@ abstract class _FilterStoreBase with Store {
       maxPrice != null && minPrice != null && maxPrice! < minPrice!
           ? 'Faixa de preço inválida'
           : null;
+
+  @observable
+  int vendorType = vendorTypeParticular;
+
+  @action
+  void selectVendorType(int value) => vendorType = value;
+  void setVendorType(int type) => vendorType = vendorType | type;
+  void resetVendorType(int type) => vendorType = vendorType & ~type;
+
+  @computed
+  bool get isTypeParticular => (vendorType & vendorTypeParticular) != 0;
+  bool get isTypeProfessional => (vendorType & vendorTypeProfessional) != 0;
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:xlo_mobx/components/option_toggle.dart';
 import 'package:xlo_mobx/screens/filter/components/section_title.dart';
 import 'package:xlo_mobx/stores/filter_store.dart';
 
@@ -8,7 +9,7 @@ class OrderByField extends StatelessWidget {
 
   final FilterStore store;
 
-  Widget buildOption(String title, OrderBy option,
+  /*Widget buildOption(String title, OrderBy option,
       {required BuildContext context}) {
     return GestureDetector(
       onTap: () {
@@ -38,7 +39,7 @@ class OrderByField extends StatelessWidget {
         ),
       ),
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +50,19 @@ class OrderByField extends StatelessWidget {
           SectionTitle(title: 'Ordernar por'),
           Row(
             children: [
-              buildOption('Data', OrderBy.date, context: context),
+              OptionToggle(
+                title: 'Data',
+                onTap: () => store.setOrderBy(OrderBy.date),
+                activeCondition: store.orderBy == OrderBy.date,
+              ),
+              //buildOption('Data', OrderBy.date, context: context),
               const SizedBox(width: 12),
-              buildOption('Preço', OrderBy.price, context: context),
+              OptionToggle(
+                title: 'Preço',
+                onTap: () => store.setOrderBy(OrderBy.price),
+                activeCondition: store.orderBy == OrderBy.price,
+              ),
+              //buildOption('Preço', OrderBy.price, context: context),
             ],
           ),
         ],

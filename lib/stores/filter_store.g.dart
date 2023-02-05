@@ -16,6 +16,13 @@ mixin _$FilterStore on _FilterStoreBase, Store {
       (_$priceErrorComputed ??= Computed<String?>(() => super.priceError,
               name: '_FilterStoreBase.priceError'))
           .value;
+  Computed<bool>? _$isTypeParticularComputed;
+
+  @override
+  bool get isTypeParticular => (_$isTypeParticularComputed ??= Computed<bool>(
+          () => super.isTypeParticular,
+          name: '_FilterStoreBase.isTypeParticular'))
+      .value;
 
   late final _$orderByAtom =
       Atom(name: '_FilterStoreBase.orderBy', context: context);
@@ -65,6 +72,22 @@ mixin _$FilterStore on _FilterStoreBase, Store {
     });
   }
 
+  late final _$vendorTypeAtom =
+      Atom(name: '_FilterStoreBase.vendorType', context: context);
+
+  @override
+  int get vendorType {
+    _$vendorTypeAtom.reportRead();
+    return super.vendorType;
+  }
+
+  @override
+  set vendorType(int value) {
+    _$vendorTypeAtom.reportWrite(value, super.vendorType, () {
+      super.vendorType = value;
+    });
+  }
+
   late final _$_FilterStoreBaseActionController =
       ActionController(name: '_FilterStoreBase', context: context);
 
@@ -102,12 +125,25 @@ mixin _$FilterStore on _FilterStoreBase, Store {
   }
 
   @override
+  void selectVendorType(int value) {
+    final _$actionInfo = _$_FilterStoreBaseActionController.startAction(
+        name: '_FilterStoreBase.selectVendorType');
+    try {
+      return super.selectVendorType(value);
+    } finally {
+      _$_FilterStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 orderBy: ${orderBy},
 minPrice: ${minPrice},
 maxPrice: ${maxPrice},
-priceError: ${priceError}
+vendorType: ${vendorType},
+priceError: ${priceError},
+isTypeParticular: ${isTypeParticular}
     ''';
   }
 }
