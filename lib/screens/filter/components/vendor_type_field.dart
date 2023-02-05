@@ -68,6 +68,19 @@ class VendorTypeField extends StatelessWidget {
                   activeCondition: store.isTypeProfessional,
                   enabled: enabled,
                 ),
+                if (store.vendorError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4, bottom: 4),
+                    child: Text(
+                      store.vendorError!,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 15.68,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: .15,
+                      ),
+                    ),
+                  )
               ],
             );
           },

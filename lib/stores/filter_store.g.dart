@@ -30,6 +30,20 @@ mixin _$FilterStore on _FilterStoreBase, Store {
       (_$priceErrorComputed ??= Computed<String?>(() => super.priceError,
               name: '_FilterStoreBase.priceError'))
           .value;
+  Computed<bool>? _$isVendorValidComputed;
+
+  @override
+  bool get isVendorValid =>
+      (_$isVendorValidComputed ??= Computed<bool>(() => super.isVendorValid,
+              name: '_FilterStoreBase.isVendorValid'))
+          .value;
+  Computed<String?>? _$vendorErrorComputed;
+
+  @override
+  String? get vendorError =>
+      (_$vendorErrorComputed ??= Computed<String?>(() => super.vendorError,
+              name: '_FilterStoreBase.vendorError'))
+          .value;
   Computed<bool>? _$isTypeParticularComputed;
 
   @override
@@ -86,19 +100,19 @@ mixin _$FilterStore on _FilterStoreBase, Store {
     });
   }
 
-  late final _$form_validAtom =
-      Atom(name: '_FilterStoreBase.form_valid', context: context);
+  late final _$filterAppliedAtom =
+      Atom(name: '_FilterStoreBase.filterApplied', context: context);
 
   @override
-  bool get form_valid {
-    _$form_validAtom.reportRead();
-    return super.form_valid;
+  bool get filterApplied {
+    _$filterAppliedAtom.reportRead();
+    return super.filterApplied;
   }
 
   @override
-  set form_valid(bool value) {
-    _$form_validAtom.reportWrite(value, super.form_valid, () {
-      super.form_valid = value;
+  set filterApplied(bool value) {
+    _$filterAppliedAtom.reportWrite(value, super.filterApplied, () {
+      super.filterApplied = value;
     });
   }
 
@@ -238,7 +252,7 @@ mixin _$FilterStore on _FilterStoreBase, Store {
 loading: ${loading},
 error: ${error},
 showErrors: ${showErrors},
-form_valid: ${form_valid},
+filterApplied: ${filterApplied},
 orderBy: ${orderBy},
 minPrice: ${minPrice},
 maxPrice: ${maxPrice},
@@ -246,6 +260,8 @@ vendorType: ${vendorType},
 formValid: ${formValid},
 sendPressed: ${sendPressed},
 priceError: ${priceError},
+isVendorValid: ${isVendorValid},
+vendorError: ${vendorError},
 isTypeParticular: ${isTypeParticular}
     ''';
   }

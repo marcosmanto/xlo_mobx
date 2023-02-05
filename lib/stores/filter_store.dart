@@ -20,14 +20,14 @@ abstract class _FilterStoreBase with Store {
   @observable
   bool showErrors = false;
 
-  @action
-  void invalidSendPressed() => showErrors = false;
-
   @observable
-  bool form_valid = false;
+  bool filterApplied = false;
+
+  @action
+  void invalidSendPressed() => showErrors = true;
 
   @computed
-  bool get formValid => form_valid;
+  bool get formValid => isPriceRangeValid && isVendorValid;
 
   @computed
   get sendPressed => !loading && formValid ? _send : null;
@@ -36,8 +36,14 @@ abstract class _FilterStoreBase with Store {
   Future _send() async {
     error = null;
     loading = true;
-    await Future.delayed(Duration(seconds: 5));
+    showErrors = true;
+    if (formValid) {
+      await Future.delayed(Duration(seconds: 5));
+      filterApplied = true;
+    }
     loading = false;
+
+    //filterApplied = false;
   }
 
   @observable
@@ -57,13 +63,27 @@ abstract class _FilterStoreBase with Store {
   setMaxPrice(int? value) => maxPrice = value;
 
   @computed
-  String? get priceError =>
-      maxPrice != null && minPrice != null && maxPrice! < minPrice!
-          ? 'Faixa de preço inválida'
-          : null;
+  String? get priceError {
+    if (!showErrors) return null;
+    return maxPrice != null && minPrice != null && maxPrice! < minPrice!
+        ? 'Faixa de preço inválida'
+        : null;
+  }
+
+  bool get isPriceRangeValid => priceError == null;
 
   @observable
-  int vendorType = vendorTypeParticular;
+  int vendorType = 0;
+
+  @computed
+  bool get isVendorValid => vendorType > 0;
+
+  @computed
+  String? get vendorError {
+    if (!showErrors) return null;
+    if (!isVendorValid) return 'Selecione ao menos um tipo de anunciante';
+    return null;
+  }
 
   @action
   void selectVendorType(int value) => vendorType = value;

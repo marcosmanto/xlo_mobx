@@ -33,6 +33,11 @@ class _FilterScreenState extends State<FilterScreen> {
       }
     });
 
+    // when run only once and has auto dispose
+    when((_) => filterStore.filterApplied, () {
+      Navigator.of(context).pop();
+    });
+
     super.initState();
   }
 
@@ -78,17 +83,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        ElevatedButton(
-                          onPressed: () =>
-                              filterStore.form_valid = !filterStore.form_valid,
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            elevation: 0,
-                          ),
-                          child: Text('teste'),
-                        ),
+                        Text(filterStore.filterApplied.toString()),
                         OrderByField(
                           store: filterStore,
                           enabled: !filterStore.loading,
