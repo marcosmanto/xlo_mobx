@@ -34,12 +34,6 @@ class _CreateScreenState extends State<CreateScreen> {
   void initState() {
     super.initState();
     cepStore = createStore.cepStore;
-    _disposerLoading = reaction((_) => createStore.loading, (loading) {
-      if (loading == false) {
-        //Hide immediately snackbar if there is one
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      }
-    });
 
     _disposerFormValid = reaction((_) => createStore.formValid, (formValid) {
       setState(() {});

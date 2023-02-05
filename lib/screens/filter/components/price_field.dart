@@ -8,16 +8,19 @@ class PriceField extends StatelessWidget {
     required this.label,
     required this.onChanged,
     this.initialValue,
+    this.enabled = true,
   });
 
   final String label;
   final Function(int?) onChanged;
   final int? initialValue;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: TextFormField(
+        enabled: enabled,
         initialValue: initialValue?.toString(),
         onChanged: (text) {
           onChanged(int.tryParse(text.replaceAll('.', '')));
@@ -30,6 +33,9 @@ class PriceField extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 9),
             counterText: ''),
         maxLength: 9,
+        style: TextStyle(
+          color: enabled ? null : Colors.grey,
+        ),
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
           RealInputFormatter()

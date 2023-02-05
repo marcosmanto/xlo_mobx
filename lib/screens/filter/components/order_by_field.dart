@@ -5,9 +5,14 @@ import 'package:xlo_mobx/screens/filter/components/section_title.dart';
 import 'package:xlo_mobx/stores/filter_store.dart';
 
 class OrderByField extends StatelessWidget {
-  const OrderByField({super.key, required this.store});
+  const OrderByField({
+    super.key,
+    required this.store,
+    this.enabled = true,
+  });
 
   final FilterStore store;
+  final bool enabled;
 
   /*Widget buildOption(String title, OrderBy option,
       {required BuildContext context}) {
@@ -47,20 +52,25 @@ class OrderByField extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionTitle(title: 'Ordernar por'),
+          SectionTitle(
+            title: 'Ordernar por',
+            enabled: enabled,
+          ),
           Row(
             children: [
               OptionToggle(
                 title: 'Data',
-                onTap: () => store.setOrderBy(OrderBy.date),
+                onTap: enabled ? () => store.setOrderBy(OrderBy.date) : null,
                 activeCondition: store.orderBy == OrderBy.date,
+                enabled: enabled,
               ),
               //buildOption('Data', OrderBy.date, context: context),
               const SizedBox(width: 12),
               OptionToggle(
                 title: 'Preço',
-                onTap: () => store.setOrderBy(OrderBy.price),
+                onTap: enabled ? () => store.setOrderBy(OrderBy.price) : null,
                 activeCondition: store.orderBy == OrderBy.price,
+                enabled: enabled,
               ),
               //buildOption('Preço', OrderBy.price, context: context),
             ],

@@ -5,28 +5,38 @@ import 'package:xlo_mobx/screens/filter/components/section_title.dart';
 import 'package:xlo_mobx/stores/filter_store.dart';
 
 class PriceRangeField extends StatelessWidget {
-  const PriceRangeField({super.key, required this.store});
+  const PriceRangeField({
+    super.key,
+    required this.store,
+    this.enabled = true,
+  });
 
   final FilterStore store;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionTitle(title: 'Preço'),
+        SectionTitle(
+          title: 'Preço',
+          enabled: enabled,
+        ),
         Row(
           children: [
             PriceField(
               onChanged: store.setMinPrice,
               label: 'Min',
               initialValue: store.minPrice,
+              enabled: enabled,
             ),
             const SizedBox(width: 12),
             PriceField(
               onChanged: store.setMaxPrice,
               label: 'Max',
               initialValue: store.maxPrice,
+              enabled: enabled,
             ),
           ],
         ),

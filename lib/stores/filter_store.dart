@@ -12,6 +12,35 @@ const vendorTypeProfessional = 1 << 1;
 
 abstract class _FilterStoreBase with Store {
   @observable
+  bool loading = false;
+
+  @observable
+  String? error;
+
+  @observable
+  bool showErrors = false;
+
+  @action
+  void invalidSendPressed() => showErrors = false;
+
+  @observable
+  bool form_valid = false;
+
+  @computed
+  bool get formValid => form_valid;
+
+  @computed
+  get sendPressed => !loading && formValid ? _send : null;
+
+  @action
+  Future _send() async {
+    error = null;
+    loading = true;
+    await Future.delayed(Duration(seconds: 5));
+    loading = false;
+  }
+
+  @observable
   OrderBy orderBy = OrderBy.date;
 
   @action

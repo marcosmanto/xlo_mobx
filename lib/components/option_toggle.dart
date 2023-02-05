@@ -6,11 +6,13 @@ class OptionToggle extends StatelessWidget {
     required this.title,
     required this.onTap,
     required this.activeCondition,
+    this.enabled = true,
   });
 
-  final void Function() onTap;
+  final void Function()? onTap;
   final String title;
   final bool activeCondition;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +27,14 @@ class OptionToggle extends StatelessWidget {
           height: 45,
           decoration: BoxDecoration(
             border: Border.all(
-                color: activeCondition
+                color: activeCondition && enabled
                     ? Theme.of(context).colorScheme.primary
                     : Colors.grey),
             borderRadius: BorderRadius.circular(25),
             color: activeCondition
-                ? Theme.of(context).colorScheme.primary
+                ? enabled
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.grey[500]
                 : Colors.transparent,
           ),
           child: Text(

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 class SectionTitle extends StatelessWidget {
-  const SectionTitle({super.key, required this.title});
+  const SectionTitle({
+    super.key,
+    required this.title,
+    this.enabled = true,
+  });
 
   final String title;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +17,9 @@ class SectionTitle extends StatelessWidget {
       child: Text(
         title,
         style: TextStyle(
-          color: Theme.of(context).colorScheme.primary,
+          color: enabled
+              ? Theme.of(context).colorScheme.primary
+              : Colors.grey[400],
           fontSize: 15,
           fontWeight: FontWeight.w400,
         ),
