@@ -60,7 +60,8 @@ class _FilterScreenState extends State<FilterScreen> {
               : null,
           child: Scaffold(
             appBar: AppBar(
-              title: const Text('Filtrar busca'),
+              title:
+                  filterStore.loading ? Text('Aguarde') : Text('Filtrar busca'),
               centerTitle: true,
             ),
             body: Center(
@@ -74,7 +75,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 32, vertical: 16),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         ElevatedButton(
@@ -100,7 +101,7 @@ class _FilterScreenState extends State<FilterScreen> {
                           store: filterStore,
                           enabled: !filterStore.loading,
                         ),
-                        const SizedBox(height: 25),
+                        const SizedBox(height: 28),
                         LayoutBuilder(
                           builder: (context, constraints) => Container(
                             alignment: Alignment.center,
